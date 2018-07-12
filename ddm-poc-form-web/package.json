@@ -1,0 +1,24 @@
+{
+	"dependencies": {
+		"metal-drag-drop": "^3.1.0",
+		"classnames": "^2.2.6"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-metal-jsx": "^0.1.1",
+		"babel-plugin-module-resolver": "^3.1.1",
+		"babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"liferay-npm-bundler": "^2.1.0",
+		"metal-tools-soy": "^6.0.0"
+	},
+	"name": "ddm-poc-form-web",
+	"private": true,
+	"main": "lib/main.js",
+	"scripts": {
+		"build": "babel --source-maps -d classes/META-INF/resources/lib src/main/js && liferay-npm-bundler",
+		"soy": "metalsoy --soyDeps './node_modules/com.liferay.frontend.taglib.clay/META-INF/resources/node_modules/*/src/*.soy'"
+	},
+	"version": "1.0.0"
+}

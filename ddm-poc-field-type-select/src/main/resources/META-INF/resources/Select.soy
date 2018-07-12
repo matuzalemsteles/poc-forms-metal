@@ -1,0 +1,77 @@
+{namespace Select}
+
+{template .render}
+    {@param? editable: bool}
+    {@param? id: string}
+    {@param? label: string}
+    {@param? placeholder: string}
+    {@param? required: bool}
+    {@param? showLabel: bool}
+    {@param? spritemap: string}
+
+    {call FieldBase.render}
+        {param contentRenderer kind="html"}
+            {call .content data="all" /}
+        {/param}
+
+        {param id: $id /}
+        {param label: $label /}
+        {param required: $required /}
+        {param showLabel: $showLabel /}
+        {param spritemap: $spritemap /}
+    {/call}
+{/template}
+
+{template .content}
+    {@param? editable: bool}
+    {@param? id: string}
+    {@param? items: list<[
+        name: string
+    ]>}
+    {@param? placeholder: string}
+    {@param? spritemap: string}
+
+    <div class="form-builder-select-field input-group-container">
+        {let $attributes kind="attributes"}
+            class="form-control select-field-trigger"
+
+            {if $id}
+                id="{$id}"
+            {/if}
+
+            {if $editable}
+                disabled=""
+            {/if}
+        {/let}
+
+        <div {$attributes}>
+            <div class="option-selected option-selected-placeholder">{$placeholder}</div>
+            <a class="select-arrow-down-container" href="javascript:;">
+                {if $spritemap}
+                    {call ClayIcon.render}
+                        {param spritemap: $spritemap /}
+                        {param symbol: 'caret-double' /}
+                    {/call}
+                {/if}
+            </a>
+        </div>
+    </div>
+
+    {call .listItems data="all" /}
+{/template}
+
+{template .listItems}
+    {@param? items: list<[
+        name: string
+    ]>}
+
+    {if $items}
+        <div class="dropdown-menu">
+            <ul class="list-unstyled">
+                {foreach $item in $items}
+                    <li class="dropdown-item">{$item.name}</li>
+                {/foreach}
+            </ul>
+        </div>
+    {/if}
+{/template}

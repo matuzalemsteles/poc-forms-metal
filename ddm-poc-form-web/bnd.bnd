@@ -1,0 +1,4 @@
+Bundle-Name: Liferay Dynamic Data Mapping POC Form Web
+Bundle-SymbolicName: com.liferay.ddm.poc.form.web
+Bundle-Version: 1.0.0
+Web-ContextPath: /ddm-poc-form-web

@@ -1,0 +1,8 @@
+Bundle-Name: Liferay Dynamic Data Mapping POC Field Type Base
+Bundle-SymbolicName: com.liferay.ddm.poc.field.type.base
+Bundle-Version: 1.0.0
+Provide-Capability:\
+	soy;\
+		type="ddm-field-type-base";\
+		version:Version="${Bundle-Version}"
+Web-ContextPath: /ddm-poc-field-type-base

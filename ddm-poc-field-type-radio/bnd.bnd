@@ -1,0 +1,4 @@
+Bundle-Name: Liferay Dynamic Data Mapping POC Field Type Radio
+Bundle-SymbolicName: com.liferay.ddm.poc.field.type.radio
+Bundle-Version: 1.0.0
+Web-ContextPath: /ddm-poc-field-type-radio

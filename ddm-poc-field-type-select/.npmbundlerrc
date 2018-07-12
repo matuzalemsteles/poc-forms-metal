@@ -1,0 +1,19 @@
+{
+	"config": {
+		"imports": {
+			"frontend-taglib-clay": {
+				"clay-icon": ">=2.1.12"
+			},
+			"ddm-poc-field-type-base": {
+				"/": ">=1.0.0"
+			},
+			"frontend-js-metal-web": {
+				"metal": ">=2.16.5",
+				"metal-component": ">=2.16.5",
+				"metal-soy": ">=2.16.5",
+				"metal-state": ">=2.16.5"
+			}
+		}
+	},
+	"output": "classes/META-INF/resources"
+}
