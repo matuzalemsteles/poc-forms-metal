@@ -61,7 +61,7 @@ class Form extends Component {
                     inverted={true}
                     spritemap={spritemap}
                 />
-                <LayoutProviderWithAppComposer {...this.otherProps()}>
+                <LayoutProviderWithAppComposer {...this.props}>
                     <Builder />
                 </LayoutProviderWithAppComposer>
             </div>
