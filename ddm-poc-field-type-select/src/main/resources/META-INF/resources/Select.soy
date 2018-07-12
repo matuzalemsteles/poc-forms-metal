@@ -3,6 +3,9 @@
 {template .render}
     {@param? editable: bool}
     {@param? id: string}
+    {@param? items: list<[
+        name: string
+    ]>}
     {@param? label: string}
     {@param? placeholder: string}
     {@param? required: bool}
@@ -11,7 +14,13 @@
 
     {call FieldBase.render}
         {param contentRenderer kind="html"}
-            {call .content data="all" /}
+            {call .content}
+                {param editable: $editable /}
+                {param id: $id /}
+                {param items: $items /}
+                {param placeholder: $placeholder /}
+                {param spritemap: $spritemap /}
+            {/call}
         {/param}
 
         {param id: $id /}
@@ -57,7 +66,9 @@
         </div>
     </div>
 
-    {call .listItems data="all" /}
+    {call .listItems}
+        {param items: $items /}
+    {/call}
 {/template}
 
 {template .listItems}
