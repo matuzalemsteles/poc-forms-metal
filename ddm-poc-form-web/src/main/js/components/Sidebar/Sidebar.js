@@ -133,13 +133,18 @@ class Sidebar extends Component {
 
     render() {
         const { show, tabActive } = this.state;
-        const { spritemap, listFields, fieldFocus, context, fieldContext } = this.props;
+        const { 
+            spritemap, 
+            listFields, 
+            fieldFocus, 
+            context, 
+            fieldContext 
+        } = this.props;
         let currentField = null;
 
         if (fieldFocus.mode === 'edit') {
-            const field = context[fieldFocus.indexPage].rows[fieldFocus.indexRow].columns[fieldFocus.indexColumn].fields[0];
             currentField = listFields.find(item => {
-                return item.type == field.type;
+                return item.type == fieldFocus.type;
             });
         }
 

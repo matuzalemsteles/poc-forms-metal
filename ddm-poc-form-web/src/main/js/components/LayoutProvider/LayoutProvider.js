@@ -82,6 +82,7 @@ class LayoutProvider extends Component {
                 indexPage,
                 indexRow,
                 mode: 'edit',
+                type: fieldProperties.type,
             },
         });
     }
