@@ -8,12 +8,22 @@ import templates from './Select.soy.js';
 import SelectRegister from './SelectRegister.soy.js';
 
 class Select extends Component {
-    created() {
-        console.log('FieldType: Select')
-    }
-
     static STATE = {
-        placeholder: Config.string().value('Choose an Option'),
+        /**
+         * @default false
+         * @instance
+         * @memberof Select
+         * @type {?bool}
+         */
+        editable: Config.bool().value(false),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Select
+         * @type {?(string|undefined)}
+         */        
+        id: Config.string(),
 
         /**
          * @default undefined
@@ -26,16 +36,44 @@ class Select extends Component {
         })),
 
         /**
-         * @default true
+         * @default undefined
+         * @instance
+         * @memberof Select
+         * @type {?(string|undefined)}
+         */
+        label: Config.string(),
+
+        /**
+         * @default Choose an Option
+         * @instance
+         * @memberof Select
+         * @type {?string}
+         */
+        placeholder: Config.string().value('Choose an Option'),
+
+        /**
+         * @default false
          * @instance
          * @memberof Select
          * @type {?bool}
          */
-        filter: Config.bool().value(true),
-    }
+        required: Config.bool().value(false),
 
-    _handleOnInput(event) {
-        console.log(event.target.value);
+        /**
+         * @default false
+         * @instance
+         * @memberof Select
+         * @type {?bool}
+         */
+        showLabel: Config.bool().value(false),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Select
+         * @type {?(string|undefined)}
+         */
+        spritemap: Config.string(),
     }
 }
 
