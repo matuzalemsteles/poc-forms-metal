@@ -1,18 +1,26 @@
+import 'clay-radio';
 import {Config} from 'metal-state';
 import Component from 'metal-component';
-import Soy from 'metal-soy';
 import FieldBase from 'ddm-poc-field-type-base';
-import 'clay-radio';
+import Soy from 'metal-soy';
 
 import templates from './Radio.soy.js';
 import RadioRegister from './RadioRegister.soy.js';
 
+/**
+ * Radio.
+ * @extends Component
+ */
 class Radio extends Component {
-    created() {
-        console.log('FieldType: Radio')
-    }
-
     static STATE = {
+        /**
+         * @default false
+         * @instance
+         * @memberof Radio
+         * @type {?bool}
+         */
+        editable: Config.bool().value(false),
+
         /**
          * @default undefined
          * @instance
@@ -32,7 +40,47 @@ class Radio extends Component {
             {
                 label: 'Option'
             }
-        ])
+        ]),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Radio
+         * @type {?(string|undefined)}
+         */
+        id: Config.string(),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Radio
+         * @type {?(string|undefined)}
+         */
+        label: Config.string(),
+
+        /**
+         * @default false
+         * @instance
+         * @memberof Radio
+         * @type {?bool}
+         */
+        required: Config.bool().value(false),
+
+        /**
+         * @default true
+         * @instance
+         * @memberof Radio
+         * @type {?bool}
+         */
+        showLabel: Config.bool().value(true),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Radio
+         * @type {?(string|undefined)}
+         */
+        spritemap: Config.string(),
     }
 }
 
