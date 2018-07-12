@@ -1,5 +1,6 @@
-import Component from 'metal-jsx';
+import {Config} from 'metal-state';
 import ClayNavigationBar from 'clay-navigation-bar';
+import Component from 'metal-jsx';
 
 import LayoutProvider from './components/LayoutProvider/index.js';
 import withAppComposer from './hocs/withAppComposer/index.js';
@@ -17,6 +18,25 @@ const LayoutProviderWithAppComposer = withAppComposer(LayoutProvider);
  * @extends Component
  */
 class Form extends Component {
+    static PROPS = {
+        /**
+         * The path to the SVG spritemap file containing the icons.
+         * @default undefined
+         * @instance
+         * @memberof Form
+         * @type {!string}
+         */
+        spritemap: Config.string().required(),
+
+        /**
+         * The context for rendering a layout that represents a form.
+         * @default undefined
+         * @instance
+         * @memberof Form
+         * @type {!array}
+         */
+        context: Config.array().required(),
+    }
 
     /**
      * @inheritDoc
