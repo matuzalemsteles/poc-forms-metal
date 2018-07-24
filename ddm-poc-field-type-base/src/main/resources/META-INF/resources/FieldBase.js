@@ -61,12 +61,7 @@ class FieldBase extends Component {
          * @memberof FieldBase
          * @type {?(string|undefined)}
          */
-        spritemap: Config.string(),
-
-    }
-
-    created() {
-        console.log('FieldType: FieldBase')
+        spritemap: Config.string().required(),
     }
 }
 
