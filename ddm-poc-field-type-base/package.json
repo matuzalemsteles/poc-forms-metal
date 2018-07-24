@@ -1,17 +1,30 @@
 {
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
-		"babel-preset-env": "^1.7.0",
 		"babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-preset-env": "^1.7.0",
+		"jest": "^23.4.1",
+		"liferay-jest-junit-reporter": "0.0.4",
 		"liferay-npm-bundler": "^2.1.0",
+		"metal-jest-serializer": "^2.0.0",
 		"metal-tools-soy": "^6.0.0"
+	},
+	"jest": {
+		"transformIgnorePatterns": [
+			"<rootDir>.*(node_modules)(?!.*metal.*).*$"
+		],
+		"testResultsProcessor": "./node_modules/liferay-jest-junit-reporter",
+		"snapshotSerializers": [
+			"metal-jest-serializer"
+		]
 	},
 	"name": "ddm-poc-field-type-base",
 	"private": true,
 	"main": "index.js",
 	"scripts": {
 		"build": "npm run soy && babel --source-maps -d classes/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler",
-		"soy": "metalsoy --soyDeps './node_modules/com.liferay.frontend.taglib.clay/META-INF/resources/node_modules/*/src/*.soy'"
+		"soy": "metalsoy --soyDeps './node_modules/com.liferay.frontend.taglib.clay/META-INF/resources/node_modules/*/src/*.soy' './node_modules/clay-*/**/*.soy'",
+		"test": "npm run soy && jest"
 	},
 	"version": "1.0.0"
 }
