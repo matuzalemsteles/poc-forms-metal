@@ -103,6 +103,14 @@ class LayoutRenderer extends Component {
     }
 
     /**
+     * @param {!Object} data
+     * @private
+     */
+    _handleFieldChange(data) {
+        this.emit('fieldEdit', data);
+    }
+    
+    /**
      * @param {!Event} event
      * @private
      */

@@ -3,15 +3,26 @@ import Component from 'metal-component';
 import Soy from 'metal-soy';
 import FieldBase from 'ddm-poc-field-type-base';
 
-import templates from './Text.soy.js';
-import TextRegister from './TextRegister.soy.js';
+import templates from './Grid.soy.js';
+import GridRegister from './GridRegister.soy.js';
 
-class Text extends Component {
+class Grid extends Component {
     static STATE = {
+         /**
+         * @default undefined
+         * @instance
+         * @memberof Select
+         * @type {?array<object>}
+         */
+        columns: Config.arrayOf(Config.shapeOf({
+            label: Config.string(),
+            value:  Config.string()
+        })).value([{label: 'col1', value:'fieldId'}, {label: 'col2', value:'fieldId'}]),
+
         /**
          * @default false
          * @instance
-         * @memberof Text
+         * @memberof Grid
          * @type {?bool}
          */
         editable: Config.bool().value(false),
@@ -19,7 +30,7 @@ class Text extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Text
+         * @memberof FieldBase
          * @type {?(string|undefined)}
          */
         helpText: Config.string(),
@@ -27,7 +38,7 @@ class Text extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Text
+         * @memberof Grid
          * @type {?(string|undefined)}
          */
         id: Config.string(),
@@ -35,7 +46,7 @@ class Text extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Text
+         * @memberof Grid
          * @type {?(string|undefined)}
          */
         label: Config.string(),
@@ -43,7 +54,7 @@ class Text extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Text
+         * @memberof Grid
          * @type {?(string|undefined)}
          */
         placeholder: Config.string(),
@@ -51,15 +62,26 @@ class Text extends Component {
         /**
          * @default false
          * @instance
-         * @memberof Text
+         * @memberof Grid
          * @type {?(bool|undefined)}
          */
         required: Config.bool().value(false),
 
         /**
+         * @default undefined
+         * @instance
+         * @memberof Select
+         * @type {?array<object>}
+         */
+        rows: Config.arrayOf(Config.shapeOf({
+            label: Config.string(),
+            value:  Config.string()
+        })).value([{label: 'row', value:'jehf'}]),
+
+        /**
          * @default true
          * @instance
-         * @memberof Text
+         * @memberof Grid
          * @type {?(bool|undefined)}
          */
         showLabel: Config.bool().value(true),
@@ -67,33 +89,13 @@ class Text extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Text
+         * @memberof Grid
          * @type {?(string|undefined)}
          */
         spritemap: Config.string(),
-
-         /**
-         * @default undefined
-         * @instance
-         * @memberof Text
-         * @type {?(string|undefined)}
-         */
-        value: Config.string(),
-
-        key: Config.string()
-    }
-
-    _handleFieldChange(event) {
-        const { key } = this;
-
-        this.emit('fieldEdit', {
-            value: event.target.value,
-            key,
-            originalEvent: event
-        });
     }
 }
 
-Soy.register(Text, templates);
+Soy.register(Grid, templates);
 
-export default Text;
+export default Grid;
