@@ -16,7 +16,7 @@ class LayoutProvider extends Component {
          * @memberof LayoutProvider
          * @type {?array}
          */
-        context: Config.array(),
+        context: Config.array()
     }
 
     static STATE = {
@@ -34,7 +34,7 @@ class LayoutProvider extends Component {
          * @memberof LayoutProvider
          * @type {?object}
          */
-        fieldFocus: Config.object(),
+        fieldFocus: Config.object()
     }
 
     /**
@@ -64,7 +64,7 @@ class LayoutProvider extends Component {
         const { context, spritemap } = this.props;
         const { indexRow, indexPage, indexColumn } = target;
 
-        fieldProperties = Object.assign(fieldProperties, {spritemap});
+        fieldProperties = Object.assign({}, fieldProperties, {spritemap});
 
         let newContext = null;
 
@@ -102,6 +102,30 @@ class LayoutProvider extends Component {
                 mode: 'add',
             }
         });
+    }
+
+    /**
+     * @param {!Object}
+     * @private
+     */
+    _handleFieldEdit({value, key}) {
+        const { context } = this.state;
+        const { fieldFocus } = this.state;
+        const { indexColumn, indexPage, indexRow } = fieldFocus;
+        const fieldSelected = LayoutSupport.getColumn(context, indexPage, indexRow, indexColumn);
+
+        const implPropertiesField = {
+            [key]: value
+        }
+
+        const newField = Object.assign({}, fieldSelected[0], implPropertiesField);
+
+        const newContext = LayoutSupport.updateColumn(context, indexPage, indexRow, indexColumn, [newField]);
+
+        this.setState( {
+            context: this.state.context
+        });
+
     }
 
     /**
@@ -191,6 +215,7 @@ class LayoutProvider extends Component {
 
         const events = {
             fieldAdd: this._handleFieldAdd.bind(this),
+            fieldEdit: this._handleFieldEdit.bind(this),
             fieldClicked: this._handleFieldClicked.bind(this),
             fieldDelete: this._handleFieldDelete.bind(this),
             fieldMove: this._handleFieldMove.bind(this),

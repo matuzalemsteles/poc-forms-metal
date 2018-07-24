@@ -1,8 +1,8 @@
-{namespace Radio}
+{namespace Checkbox}
 
 {template .render}
+    {@param? _handleToggleChange: any}
     {@param? editable: bool}
-    {@param? helpText: string}
     {@param? items: list<[
         checked: bool,
         disabled: bool,
@@ -13,23 +13,25 @@
         showLabel: bool,
         value: string
     ]>}
+    {@param? helpText: string}
     {@param? id: string}
     {@param? label: string}
-    {@param? predefinedValue: string}
     {@param? required: bool}
+    {@param? showAsSwitcher: bool}
     {@param? showLabel: bool}
     {@param? spritemap: string}
-    {@param? value: string}
 
     {call FieldBase.render}
         {param contentRenderer kind="html"}
             {call .content}
+                {param _handleToggleChange: $_handleToggleChange /}
                 {param disabled: $editable /}
                 {param items: $items /}
-                {param value: $value /}
+                {param label: $label /}
+                {param showAsSwitcher: $showAsSwitcher /}
             {/call}
         {/param}
-        
+
         {param helpText: $helpText /}
         {param id: $id /}
         {param label: $label /}
@@ -40,6 +42,7 @@
 {/template}
 
 {template .content}
+    {@param? _handleToggleChange: any}
     {@param? items: list<[
         checked: bool,
         disabled: bool,
@@ -51,16 +54,26 @@
         value: string
     ]>}
     {@param? disabled: bool}
-    {@param? value: string}
-
-    {if $value ? $value : $predefinedValue ? $predefinedValue}{/if}
+    {@param? label: string}
+    {@param? showAsSwitcher: bool}
 
     {if $items}
-        {for $radio in $items}
-                {call ClayRadio.render data="$radio"}
-                    {param disabled: $disabled ? $disabled : $radio.disabled /}
-                    {param checked: $value == $radio.label ? true : false  /}
+        {for $checkbox in $items}
+            
+            {if $showAsSwitcher}
+            <label class="toggle-switch">
+                <input class="toggle-switch-check" type="checkbox" data-onchange="{$_handleToggleChange}">
+                <span class="toggle-switch-label">{$label}</span>
+                <span aria-hidden="true" class="toggle-switch-bar">
+                    <span class="toggle-switch-handle" data-label-off="{$checkbox.label}" data-label-on="{$checkbox.label}">
+                    </span>
+                </span>
+            </label>
+            {else}
+                {call ClayCheckbox.render data="$checkbox"}
+                    {param disabled: $disabled ? $disabled : $checkbox.disabled /}
                 {/call}
+            {/if}
         {/for}
     {/if}
 {/template}

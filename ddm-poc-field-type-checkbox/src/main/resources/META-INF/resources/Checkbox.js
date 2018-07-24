@@ -1,22 +1,22 @@
-import 'clay-radio';
+import 'clay-checkbox';
 import {Config} from 'metal-state';
 import Component from 'metal-component';
 import FieldBase from 'ddm-poc-field-type-base';
 import Soy from 'metal-soy';
 
-import templates from './Radio.soy.js';
-import RadioRegister from './RadioRegister.soy.js';
+import templates from './Checkbox.soy.js';
+import CheckboxRegister from './CheckboxRegister.soy.js';
 
 /**
- * Radio.
+ * Checkbox.
  * @extends Component
  */
-class Radio extends Component {
+class Checkbox extends Component {
     static STATE = {
         /**
          * @default false
          * @instance
-         * @memberof Radio
+         * @memberof Checkbox
          * @type {?bool}
          */
         editable: Config.bool().value(false),
@@ -32,7 +32,15 @@ class Radio extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Checkbox
+         * @type {?(string|undefined)}
+         */
+        id: Config.string(),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Checkbox
          * @type {?(string|undefined)}
          */
         items: Config.arrayOf(Config.shapeOf({
@@ -46,33 +54,22 @@ class Radio extends Component {
             value: Config.string()
         })).value([
             {
-                label: 'Option 1'
-            },
-            {
-                label: 'Option 2'
+                label: 'Option'
             }
         ]),
 
         /**
          * @default undefined
          * @instance
-         * @memberof Radio
-         * @type {?(string|undefined)}
-         */
-        id: Config.string(),
-
-        /**
-         * @default undefined
-         * @instance
-         * @memberof Radio
+         * @memberof Checkbox
          * @type {?(string|undefined)}
          */
         label: Config.string(),
 
-         /**
-         * @default Choose an Option
+        /**
+         * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Select
          * @type {?string}
          */
         predefinedValue: Config.string().value('Option 1'),
@@ -80,7 +77,7 @@ class Radio extends Component {
         /**
          * @default false
          * @instance
-         * @memberof Radio
+         * @memberof Checkbox
          * @type {?bool}
          */
         required: Config.bool().value(false),
@@ -88,29 +85,47 @@ class Radio extends Component {
         /**
          * @default true
          * @instance
-         * @memberof Radio
+         * @memberof Checkbox
          * @type {?bool}
          */
-        showLabel: Config.bool().value(true),
+        showAsSwitcher: Config.bool().value(true),
+
+         /**
+         * @default true
+         * @instance
+         * @memberof Checkbox
+         * @type {?bool}
+         */
+        showLabel: Config.bool().value(false),
 
         /**
          * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Checkbox
          * @type {?(string|undefined)}
          */
         spritemap: Config.string(),
 
-        /**
+         /**
          * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Checkbox
          * @type {?(string|undefined)}
          */
-        value: Config.string()
+        key: Config.string(),
+    }
+
+    _handleToggleChange(event) {
+        const { key } = this;
+
+        this.emit('fieldEdit', {
+            value: event.delegateTarget.checked,
+            key,
+            originalEvent: event
+        });
     }
 }
 
-Soy.register(Radio, templates);
+Soy.register(Checkbox, templates);
 
-export default Radio;
+export default Checkbox;

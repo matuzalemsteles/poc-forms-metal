@@ -101,6 +101,10 @@ class Sidebar extends Component {
         }
     }
 
+    _handleFieldEdit(data) {
+        this.emit('fieldEdit', data);
+    } 
+
     _handleOnClickTab(index, event) {
         event.preventDefault();
 
@@ -112,13 +116,13 @@ class Sidebar extends Component {
 			return;
         }
 		this.close();
-	}
-
+    }
+    
     show() {
         this.state.show = true;
 
         this._eventHandler.add(
-            dom.on(document, 'click', this._handleDocClick.bind(this), true)
+            dom.on(document, 'click', this._handleDocClick.bind(this), true),
         );
     }
 
@@ -140,6 +144,9 @@ class Sidebar extends Component {
             context, 
             fieldContext 
         } = this.props;
+        const layoutRenderEvents = {
+            fieldEdit: this._handleFieldEdit.bind(this)
+        }
         let currentField = null;
 
         if (fieldFocus.mode === 'edit') {
@@ -233,6 +240,7 @@ class Sidebar extends Component {
                                 <div class="tab-content">
                                     <LayoutRenderer
                                         activePage={tabActive}
+                                        events={layoutRenderEvents}
                                         modeRenderer="list"
                                         pages={fieldContext}
                                         spritemap={spritemap}

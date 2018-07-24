@@ -1,9 +1,12 @@
 import {ClayManagementToolbar} from 'clay-management-toolbar';
 import ClayButton from 'clay-button';
 import Component from 'metal-jsx';
-import Sidebar from '../../components/Sidebar/index.js';
+import Sidebar, { SidebarProvider } from '../../components/Sidebar/index.js';
+import withSidebarComposer from '../../hocs/withSidebarComposer/index.js';
 
 import LayoutRenderer from 'ddm-poc-form-js-components/Layout/index.js';
+
+const SidebarProviderWithSidebarComposer = withSidebarComposer(SidebarProvider);
 
 /**
  * Builder.
@@ -29,6 +32,15 @@ class Builder extends Component {
      */
     _handleFieldAdd(event) {
         this.emit('fieldAdd', event);
+    }
+
+    /**
+     * Continues the propagation of data.
+     * @param {!Object} data
+     * @private
+     */
+    _handleFieldEdit(data) {
+        this.emit('fieldEdit', data);
     }
 
     /**
@@ -83,7 +95,8 @@ class Builder extends Component {
         };
 
         const sidebarEvents = {
-            fieldAdd: this._handleFieldAdd.bind(this)
+            fieldAdd: this._handleFieldAdd.bind(this),
+            fieldEdit: this._handleFieldEdit.bind(this)
         };
 
         const clayManagementToolbarEvents = {
@@ -108,15 +121,15 @@ class Builder extends Component {
                         />
                     </div>
                 </div>
-                <Sidebar
-                    context={context}
-                    events={sidebarEvents}
-                    fieldContext={fieldContext}
-                    fieldFocus={fieldFocus}
-                    listFields={listFields}
-                    ref="sidebar"
-                    spritemap={spritemap}
-                />
+                <SidebarProviderWithSidebarComposer {...this.props}>
+                    <Sidebar
+                        events={sidebarEvents}
+                        fieldFocus={fieldFocus}
+                        listFields={listFields}
+                        ref="sidebar"
+                        spritemap={spritemap}
+                    />
+                </SidebarProviderWithSidebarComposer>
             </div>
         );
     }

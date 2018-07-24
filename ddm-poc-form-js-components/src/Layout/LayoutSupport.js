@@ -71,6 +71,12 @@ const getIndexes = (node) => {
     };
 };
 
+const updateColumn = (pages, indexPage, indexRow, indexColumn, newFields) => {
+    pages[Number(indexPage)].rows[Number(indexRow)].columns[Number(indexColumn)].fields = newFields;
+
+    return pages;
+};
+
 export default {
     addColumn,
     addFields,
@@ -83,4 +89,5 @@ export default {
     removeColumn,
     removeFields,
     removeRow,
+    updateColumn
 }

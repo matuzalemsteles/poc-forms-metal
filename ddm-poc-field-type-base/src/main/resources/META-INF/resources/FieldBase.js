@@ -21,6 +21,14 @@ class FieldBase extends Component {
          * @memberof FieldBase
          * @type {?(string|undefined)}
          */
+        helpText: Config.string(),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof FieldBase
+         * @type {?(string|undefined)}
+         */
         id: Config.string(),
 
         /**
@@ -54,6 +62,7 @@ class FieldBase extends Component {
          * @type {?(string|undefined)}
          */
         spritemap: Config.string(),
+
     }
 
     created() {

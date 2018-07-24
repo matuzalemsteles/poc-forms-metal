@@ -1,22 +1,23 @@
-import 'clay-radio';
 import {Config} from 'metal-state';
 import Component from 'metal-component';
+import dom from 'metal-dom';
 import FieldBase from 'ddm-poc-field-type-base';
+import Text from 'ddm-poc-field-type-text';
 import Soy from 'metal-soy';
 
-import templates from './Radio.soy.js';
-import RadioRegister from './RadioRegister.soy.js';
+import templates from './Options.soy.js';
+import OptionsRegister from './OptionsRegister.soy.js';
 
 /**
- * Radio.
+ * Options.
  * @extends Component
  */
-class Radio extends Component {
+class Options extends Component {
     static STATE = {
         /**
          * @default false
          * @instance
-         * @memberof Radio
+         * @memberof Options
          * @type {?bool}
          */
         editable: Config.bool().value(false),
@@ -32,7 +33,7 @@ class Radio extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Options
          * @type {?(string|undefined)}
          */
         items: Config.arrayOf(Config.shapeOf({
@@ -44,19 +45,12 @@ class Radio extends Component {
             name: Config.string(),
             showLabel: Config.bool().value(true),
             value: Config.string()
-        })).value([
-            {
-                label: 'Option 1'
-            },
-            {
-                label: 'Option 2'
-            }
-        ]),
+        })).internal(),
 
         /**
          * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Options
          * @type {?(string|undefined)}
          */
         id: Config.string(),
@@ -64,23 +58,15 @@ class Radio extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Options
          * @type {?(string|undefined)}
          */
         label: Config.string(),
 
-         /**
-         * @default Choose an Option
-         * @instance
-         * @memberof Radio
-         * @type {?string}
-         */
-        predefinedValue: Config.string().value('Option 1'),
-
         /**
          * @default false
          * @instance
-         * @memberof Radio
+         * @memberof Options
          * @type {?bool}
          */
         required: Config.bool().value(false),
@@ -88,7 +74,7 @@ class Radio extends Component {
         /**
          * @default true
          * @instance
-         * @memberof Radio
+         * @memberof Options
          * @type {?bool}
          */
         showLabel: Config.bool().value(true),
@@ -96,21 +82,50 @@ class Radio extends Component {
         /**
          * @default undefined
          * @instance
-         * @memberof Radio
+         * @memberof Options
          * @type {?(string|undefined)}
          */
         spritemap: Config.string(),
 
-        /**
-         * @default undefined
-         * @instance
-         * @memberof Radio
-         * @type {?(string|undefined)}
-         */
-        value: Config.string()
+        key: Config.string(),
+
+        placeholder: Config.string()
+    }
+
+    _getFieldIndex(element) {
+        return Array.prototype.indexOf.call(
+            Array.prototype.filter.call(
+				element.parentElement.children,
+				childrenElement =>
+					childrenElement.className === 'form-group'
+			),
+            element
+        );
+    }
+
+    _handleTextChange(data) {
+        const { value, originalEvent } = data;
+        const { key } = this;
+        const fieldIndex = this._getFieldIndex(originalEvent.delegateTarget.parentNode);
+
+        if (typeof this.items[fieldIndex] === 'undefined') {
+            const newItem = {'label': value};
+            this.items.push(newItem);
+        } else {
+            this.items[fieldIndex].label = value;
+        }
+
+        this.setState({items: this.items});
+
+        this.emit('fieldEdit', {
+            value: this.items,
+            key,
+            originalEvent: event
+        });
+
     }
 }
 
-Soy.register(Radio, templates);
+Soy.register(Options, templates);
 
-export default Radio;
+export default Options;
