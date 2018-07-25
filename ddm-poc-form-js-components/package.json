@@ -1,22 +1,41 @@
 {
 	"dependencies": {
-		"metal-drag-drop": "^3.1.0"
+		"metal-drag-drop": "^3.1.0",
+		"clay-button": "^2.2.0",
+		"metal": "^2.16.5",
+		"metal-component": "^2.16.5",
+		"metal-soy": "^2.16.5",
+		"metal-state": "^2.16.5",
+		"metal-dom": "^2.16.5"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
+		"babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
 		"babel-plugin-transform-runtime": "^6.23.0",
 		"babel-preset-env": "^1.7.0",
-		"babel-plugin-transform-object-rest-spread": "^6.26.0",
-		"babel-plugin-transform-class-properties": "^6.24.1",
+		"jest": "^23.4.1",
+		"liferay-jest-junit-reporter": "0.0.4",
 		"liferay-npm-bundler": "^2.1.0",
+		"metal-jest-serializer": "^2.0.0",
 		"metal-tools-soy": "^6.0.0"
+	},
+	"jest": {
+		"transformIgnorePatterns": [
+			"<rootDir>.*(node_modules)(?!.*metal.*).*$"
+		],
+		"testResultsProcessor": "./node_modules/liferay-jest-junit-reporter",
+		"snapshotSerializers": [
+			"metal-jest-serializer"
+		]
 	},
 	"name": "ddm-poc-form-js-components",
 	"main": "/",
 	"private": true,
 	"scripts": {
 		"build": "npm run soy && babel --source-maps -d classes/META-INF/resources src && liferay-npm-bundler",
-		"soy": "metalsoy --soyDeps './node_modules/com.liferay.frontend.taglib.clay/META-INF/resources/node_modules/*/src/*.soy'"
+		"soy": "metalsoy --soyDeps './node_modules/com.liferay.frontend.taglib.clay/META-INF/resources/node_modules/*/src/*.soy' './node_modules/clay-*/**/*.soy'",
+		"test": "npm run soy && jest"
 	},
 	"version": "1.0.0"
 }
