@@ -16,10 +16,15 @@ function FieldsLoader(modules, dependencies, callback) {
     if (maps.length > 0) {
         Liferay.Loader.require(...maps, callback);
 
-        return 'Fields loaded!';
+        return true;
     } else {
-        return 'No fields found!';
+        callback();
+        return false;
     }
 };
 
 export default FieldsLoader;
+export {
+    FieldsLoader,
+    getFieldsFromModules
+}
