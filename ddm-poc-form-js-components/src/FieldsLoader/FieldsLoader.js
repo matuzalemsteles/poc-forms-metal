@@ -10,7 +10,7 @@ function getFieldsFromModules(modules, dependencies = []) {
     }).filter((element) => !element.includes(...dependencies));
 };
 
-function FieldsLoader(modules, dependencies, callback) {
+function FieldsLoader(callback, modules, dependencies = []) {
     const maps = getFieldsFromModules(modules, dependencies);
 
     if (maps.length > 0) {
