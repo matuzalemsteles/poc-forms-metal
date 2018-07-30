@@ -24,6 +24,10 @@
 		"transformIgnorePatterns": [
 			"<rootDir>.*(node_modules)(?!.*metal.*).*$"
 		],
+		"modulePathIgnorePatterns": [
+			"/__mock__/",
+			"/__fixtures__/"
+		],
 		"testResultsProcessor": "./node_modules/liferay-jest-junit-reporter",
 		"snapshotSerializers": [
 			"metal-jest-serializer"
