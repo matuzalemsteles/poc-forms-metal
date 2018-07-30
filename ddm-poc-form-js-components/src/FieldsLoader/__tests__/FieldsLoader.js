@@ -69,9 +69,15 @@ describe('FieldsLoader', () => {
         ]);
     });
 
+    it('should return an empty list when dependencies to compare are not passed', () => {
+        expect(
+            getFieldsFromModules(modules)
+        ).toEqual([]);
+    });
+
     it('should load fields when there are packages with dependencies from the list of past dependencies', () => {
         const dependenciesToCompare = ['ddm-poc-field-type-base'];
-        const result = FieldsLoader(modules, dependenciesToCompare, jest.fn());
+        const result = FieldsLoader(jest.fn(), modules, dependenciesToCompare);
 
         expect(Liferay.Loader.require).toHaveBeenCalled();
         expect(result).toBe(true);
@@ -84,7 +90,17 @@ describe('FieldsLoader', () => {
         const callback = jest.fn();
 
         expect(
-            FieldsLoader(modules, dependenciesToCompare, callback)
+            FieldsLoader(callback, modules, dependenciesToCompare)
+        ).toBe(false);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('should not load fields when the dependencies to compare is not passed and only call the callback', () => {
+        // Stub callback
+        const callback = jest.fn();
+
+        expect(
+            FieldsLoader(callback, modules)
         ).toBe(false);
         expect(callback).toHaveBeenCalled();
     });
