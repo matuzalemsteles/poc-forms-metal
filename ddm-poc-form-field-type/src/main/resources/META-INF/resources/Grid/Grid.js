@@ -17,7 +17,7 @@ class Grid extends Component {
         columns: Config.arrayOf(Config.shapeOf({
             label: Config.string(),
             value:  Config.string()
-        })).value([{label: 'col1', value:'fieldId'}, {label: 'col2', value:'fieldId'}]),
+        })).value([{label: 'col1', value:'fieldId'}]),
 
         /**
          * @default false

@@ -9,7 +9,6 @@ exports[`Grid should be not edidable 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -17,9 +16,6 @@ exports[`Grid should be not edidable 1`] = `
           <td>row</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>
@@ -38,7 +34,6 @@ exports[`Grid should have a helpText 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -46,9 +41,6 @@ exports[`Grid should have a helpText 1`] = `
           <td>row</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>
@@ -67,7 +59,6 @@ exports[`Grid should have a label 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -75,9 +66,6 @@ exports[`Grid should have a label 1`] = `
           <td>row</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>
@@ -96,7 +84,6 @@ exports[`Grid should have a spritemap 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -104,9 +91,6 @@ exports[`Grid should have a spritemap 1`] = `
           <td>row</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>
@@ -125,7 +109,6 @@ exports[`Grid should have an id 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -133,9 +116,6 @@ exports[`Grid should have an id 1`] = `
           <td>row</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>
@@ -154,7 +134,6 @@ exports[`Grid should not be required 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -162,9 +141,6 @@ exports[`Grid should not be required 1`] = `
           <td>row</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>
@@ -183,7 +159,6 @@ exports[`Grid should render Label if showLabel is true 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -191,9 +166,6 @@ exports[`Grid should render Label if showLabel is true 1`] = `
           <td>row</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>
@@ -232,6 +204,45 @@ exports[`Grid should render columns 1`] = `
 </div>
 `;
 
+exports[`Grid should render no columns when columns comes empty 1`] = `
+<div class="form-group">
+  <label></label>
+  <div class="liferay-ddm-form-field-grid table-responsive">
+    <table class="table table-autofit table-list table-striped">
+      <thead>
+        <tr>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr name="jehf">
+          <td>row</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <span class="form-text"></span>
+</div>
+`;
+
+exports[`Grid should render no rows when row comes empty 1`] = `
+<div class="form-group">
+  <label></label>
+  <div class="liferay-ddm-form-field-grid table-responsive">
+    <table class="table table-autofit table-list table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th>col1</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <span class="form-text"></span>
+</div>
+`;
+
 exports[`Grid should render rows 1`] = `
 <div class="form-group">
   <label></label>
@@ -241,7 +252,6 @@ exports[`Grid should render rows 1`] = `
         <tr>
           <th></th>
           <th>col1</th>
-          <th>col2</th>
         </tr>
       </thead>
       <tbody>
@@ -250,17 +260,11 @@ exports[`Grid should render rows 1`] = `
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="fieldId" type="radio" value="fieldId">
           </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="fieldId" type="radio" value="fieldId">
-          </td>
         </tr>
         <tr name="fieldId">
           <td>row2</td>
           <td>
             <input class="form-builder-grid-field" data-row-index="0" name="fieldId" type="radio" value="fieldId">
-          </td>
-          <td>
-            <input class="form-builder-grid-field" data-row-index="1" name="fieldId" type="radio" value="fieldId">
           </td>
         </tr>
       </tbody>

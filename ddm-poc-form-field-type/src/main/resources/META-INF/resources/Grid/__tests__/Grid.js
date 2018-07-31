@@ -20,6 +20,15 @@ describe('Grid', () => {
         expect(component).toMatchSnapshot();
     });
 
+    it('should render no columns when columns comes empty', () => {
+        component = new Grid({
+            columns: [],
+            spritemap: spritemap,
+        });
+
+        expect(component).toMatchSnapshot();
+    });
+
     it('should be not edidable', () => {
         component = new Grid({
             editable: false,
@@ -68,6 +77,15 @@ describe('Grid', () => {
     it('should render rows', () => {
         component = new Grid({
             rows: [{label: 'row1', value:'fieldId'}, {label: 'row2', value:'fieldId'}],
+            spritemap: spritemap,
+        });
+
+        expect(component).toMatchSnapshot();
+    });
+
+    it('should render no rows when row comes empty', () => {
+        component = new Grid({
+            rows: [],
             spritemap: spritemap,
         });
 
