@@ -1,4 +1,0 @@
-Bundle-Name: Liferay Dynamic Data Mapping POC Field Type Select
-Bundle-SymbolicName: com.liferay.ddm.poc.field.type.select
-Bundle-Version: 1.0.0
-Web-ContextPath: /ddm-poc-field-type-select

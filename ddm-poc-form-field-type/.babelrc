@@ -1,0 +1,11 @@
+{
+    "presets": ["env"],
+    "plugins": [
+        "transform-class-properties",
+        ["module-resolver", {
+            "alias": {
+                "ddm-poc-form-field-type/*": "./src/main/resources/META-INF/resources"
+            }
+        }]
+    ]
+}
