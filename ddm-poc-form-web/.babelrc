@@ -1,4 +1,18 @@
 {
     "presets": ["env", "metal-jsx"],
-    "plugins": ["transform-class-properties", "transform-object-rest-spread"]
+    "plugins": [
+        "transform-class-properties", 
+        "transform-object-rest-spread"
+    ],
+    "env": {
+        "test": {
+            "plugins": [
+                ["module-resolver", {
+                    "alias": {
+                        "ddm-poc-form-js-components/*": "../ddm-poc-form-js-components/src"
+                    }
+                }]
+            ]
+        }
+    }
 }
