@@ -55,6 +55,14 @@ describe('Select', () => {
         expect(component).toMatchSnapshot();
     });
 
+    it('should render no items when items come empty', () => {
+        component = new Select({
+            items: []
+        });
+
+        expect(component).toMatchSnapshot();
+    });
+
     it('should have a label', () => {
         component = new Select({
             label: 'label',
@@ -190,5 +198,33 @@ describe('Select', () => {
 
         MetalTestUtil.triggerEvent(component.element.querySelector('.select-field-trigger'), 'click', {});
         expect(component.getState().open).toBe(true);
+    });
+
+    it('should propagate the field edit event', () => {
+        component = new Select({
+            items: [
+                {
+                    checked: false,
+                    disabled: false,
+                    id: 'id',
+                    inline: false,
+                    label: 'label',
+                    name: 'name',
+                    showLabel: true,
+                    value: 'item'
+                }
+            ],
+            spritemap: spritemap
+        });
+
+        const spy = jest.spyOn(component, 'emit');
+
+        MetalTestUtil.triggerEvent(component.element.querySelector('.dropdown-menu'), 'click', {});
+
+        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledWith(
+			'fieldEdit',
+			expect.any(Object)
+		);
     });
 });
