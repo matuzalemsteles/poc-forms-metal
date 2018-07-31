@@ -221,3 +221,10 @@ exports[`Field Radio should render items 1`] = `
   <span class="form-text"></span>
 </div>
 `;
+
+exports[`Field Radio should render no items when items is empty 1`] = `
+<div class="form-group">
+  <label></label>
+  <span class="form-text"></span>
+</div>
+`;

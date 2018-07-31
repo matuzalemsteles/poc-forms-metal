@@ -45,6 +45,14 @@ describe('Field Radio', () => {
         expect(component).toMatchSnapshot();
     });
 
+    it('should render no items when items is empty', () => {
+        component = new Radio({
+            items: []
+        });
+
+        expect(component).toMatchSnapshot();
+    });
+
     it('should have an id', () => {
         component = new Radio({
             id: 'ID',
