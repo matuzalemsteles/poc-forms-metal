@@ -132,4 +132,20 @@ describe('Field Checkbox', () => {
         expect(handleFieldChange).toHaveBeenCalled();
     });
 
+    it('should propagate the field edit event on field change', () => {
+        component = new Checkbox({
+            spritemap: spritemap
+        });
+
+        const spy = jest.spyOn(component, 'emit');
+
+        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'change', {});
+
+        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledWith(
+			'fieldEdit',
+			expect.any(Object)
+		);
+    });
+
 });
