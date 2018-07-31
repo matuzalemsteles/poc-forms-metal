@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Field Text should be not edidable 1`] = `
-<div class="form-group">
-  <label></label>
-  <input class="form-control" type="text" disabled="disabled">
-  <span class="form-text"></span>
-</div>
-`;
-
 exports[`Field Text should have a helptext 1`] = `
 <div class="form-group">
   <label></label>
@@ -60,6 +52,14 @@ exports[`Field Text should have an id 1`] = `
 <div class="form-group">
   <label for="ID"></label>
   <input class="form-control" id="ID" type="text">
+  <span class="form-text"></span>
+</div>
+`;
+
+exports[`Field Text should not be editable 1`] = `
+<div class="form-group">
+  <label></label>
+  <input class="form-control" type="text" disabled="disabled">
   <span class="form-text"></span>
 </div>
 `;

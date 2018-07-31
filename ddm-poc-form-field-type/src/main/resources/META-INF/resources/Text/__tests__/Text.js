@@ -11,7 +11,7 @@ describe('Field Text', () => {
         }
     });
 
-    it('should be not edidable', () => {
+    it('should not be editable', () => {
         component = new Text({
             editable: false,
             spritemap: spritemap
@@ -133,4 +133,20 @@ describe('Field Text', () => {
         MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'input', {});
     });
 
+    it('should propagate the field edit event', () => {
+        component = new Text({
+            spritemap: spritemap,
+            key: 'input'
+        });
+
+        const spy = jest.spyOn(component, 'emit');
+
+        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'input', {});
+
+        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledWith(
+			'fieldEdit',
+			expect.any(Object)
+		);
+    });
 });
