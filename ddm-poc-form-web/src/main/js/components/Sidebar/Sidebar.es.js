@@ -9,14 +9,48 @@ import LayoutRenderer, { LayoutSupport } from 'ddm-poc-form-js-components/Layout
 
 class Sidebar extends Component {
     static STATE = {
+        /**
+         * @default false
+         * @instance
+         * @memberof Sidebar
+         * @type {?bool}
+         */
         show: Config.bool().value(false),
+
+        /**
+         * @default 0
+         * @instance
+         * @memberof Sidebar
+         * @type {?number}
+         */
         tabActive: Config.number().value(0)
     }
 
     static PROPS = {
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Sidebar
+         * @type {?(array<object>|undefined)}
+         */
+        context: Config.array(),
+
+        /**
+         * @default {mode: 'add'}
+         * @instance
+         * @memberof Sidebar
+         * @type {?object}
+         */
         fieldFocus: Config.object().value({
             mode: 'add'
         }),
+
+        /**
+         * @default object
+         * @instance
+         * @memberof Sidebar
+         * @type {?object}
+         */
         tabs: Config.object().value({
             'add': {
                 items: ['Elements']
@@ -25,7 +59,6 @@ class Sidebar extends Component {
                 items: ['Basic', 'Properties']
             }
         }),
-        context: Config.array(),
     }
 
     _startDrag() {
@@ -117,7 +150,7 @@ class Sidebar extends Component {
         }
 		this.close();
     }
-    
+
     show() {
         this.state.show = true;
 
