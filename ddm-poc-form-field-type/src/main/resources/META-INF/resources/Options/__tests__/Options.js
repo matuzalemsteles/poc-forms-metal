@@ -46,6 +46,14 @@ describe('Options', () => {
         expect(component).toMatchSnapshot();
     });
 
+    it('should render no items when items is empty', () => {
+        component = new Options({
+            items: []
+        });
+
+        expect(component).toMatchSnapshot();
+    });
+
     it('should have an id', () => {
         component = new Options({
             id: 'ID',
@@ -108,7 +116,6 @@ describe('Options', () => {
 
         expect(component).toMatchSnapshot();
     });
-    
 
     it('should emit a field edit event on any item value change', () => {
         const handleFieldEdit = jest.fn();
@@ -155,14 +162,37 @@ describe('Options', () => {
             events
         });
         const initialSize = component.items.length;
-        console.log('initialSize', component.items.length);
         MetalTestUtil.triggerEvent(component.element.querySelector('.field-options .form-group:last-child input'), 'input', {});
-        console.log('finalSize',component.items.length);
         const finalSize = component.items.length;
 
         expect(finalSize > initialSize).toBe(true);
     });
 
+    it('should propagate the field edit event when any item value change', () => {
+        component = new Options({
+            items: [
+                {
+                    checked: false,
+                    disabled: false,
+                    id: 'id',
+                    inline: false,
+                    label: 'label',
+                    name: 'name',
+                    showLabel: true,
+                    value: 'item'
+                }
+            ],
+            spritemap: spritemap
+        });
 
+        const spy = jest.spyOn(component, 'emit');
 
+        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'input', {});
+
+        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledWith(
+			'fieldEdit',
+			expect.any(Object)
+		);
+    });
 });

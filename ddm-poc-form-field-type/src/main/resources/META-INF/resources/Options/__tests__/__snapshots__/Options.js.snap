@@ -81,3 +81,11 @@ exports[`Options should render items 1`] = `
   <span class="form-text"></span>
 </div>
 `;
+
+exports[`Options should render no items when items is empty 1`] = `
+<div class="form-group">
+  <label></label>
+  <div class="field-options"></div>
+  <span class="form-text"></span>
+</div>
+`;
