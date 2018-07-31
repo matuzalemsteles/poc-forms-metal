@@ -30,7 +30,6 @@ exports[`Layout Render should render fields 1`] = `
           <tr>
             <th></th>
             <th>col1</th>
-            <th>col2</th>
           </tr>
         </thead>
         <tbody>
@@ -38,9 +37,6 @@ exports[`Layout Render should render fields 1`] = `
             <td>row</td>
             <td>
               <input class="form-builder-grid-field" data-row-index="0" name="jehf" type="radio" value="fieldId">
-            </td>
-            <td>
-              <input class="form-builder-grid-field" data-row-index="1" name="jehf" type="radio" value="fieldId">
             </td>
           </tr>
         </tbody>
