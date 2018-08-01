@@ -51,6 +51,8 @@
                 {param spritemap: $spritemap /}
             {/delcall}
         </div>
+    {ifempty}
+        <p>Drag from sidebar and drop here</p>
     {/for}
 {/deltemplate}
 
@@ -258,13 +260,14 @@
         <div {$attributes}>
             {let $content kind="html"}
                 {for $field in $column.fields}
-                    {let $fieldType: $field.type ?: 'empty' /}
+                    {let $fieldType: $field.type /}
 
                     {delcall LayoutRenderer.RegisterFieldType variant="$fieldType" data="$field" allowemptydefault="true"}
                         {param editable: $editable /}
                         {param events: [
                             'fieldEdit': $_handleFieldChange
                         ] /}
+                        {param ref: 'field' /}
                         {param spritemap: $spritemap /}
                     {/delcall}
                 {/for}
@@ -370,10 +373,13 @@
     {/if}
 {/template}
 
-{deltemplate LayoutRenderer.RegisterFieldType variant="'empty'"}
+{deltemplate LayoutRenderer.RegisterFieldType}
+    {@param? editable: bool}
     {@param? field: ?}
 
-    <div>
-        {$field} Empty Renderer.
-    </div>
+    {if $editable}
+        <div>
+            Field doesn't exist.
+        </div>
+    {/if}
 {/deltemplate}

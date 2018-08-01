@@ -70,11 +70,11 @@ class Form extends Component {
 }
 
 const DDMForm = (props, container, callback) => {
-    FieldsLoader(props.modules, props.dependencies, () => {
+    FieldsLoader(() => {
         const instance = new Form(props, container);
 
         callback(instance);
-    });
+    }, props.modules, props.dependencies);
 }
 
 export default DDMForm;

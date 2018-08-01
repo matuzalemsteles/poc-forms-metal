@@ -15,13 +15,23 @@ const addRow = (pages, indexToAddRow, pageIndex, newRow) => {
     return pages;
 }
 
-const addColumn = (pages, indexPage, indexRow, indexColumn, fields = []) => {
+const addFieldToColumn = (pages, indexPage, indexRow, indexColumn, fields) => {
+    if(!fields) {
+        console.warn(`It is not possible to add the field to column (${indexPage}, ${indexRow}, ${indexColumn}) when the field is not passed.`);
+        return pages;
+    }
+
     pages[Number(indexPage)].rows[Number(indexRow)].columns[Number(indexColumn)].fields.push(fields);
 
     return pages;
 }
 
 const addFields = (pages, indexPage, indexRow, indexColumn, fields = []) => {
+    if (!fields.length) {
+        console.warn(`Can not add empty fields to column (${indexPage}, ${indexRow}, ${indexColumn}), use removeFields for this.`);
+        return pages;
+    }
+
     pages[Number(indexPage)].rows[Number(indexRow)].columns[Number(indexColumn)].fields = fields;
 
     return pages;
@@ -56,7 +66,7 @@ const getRow = (pages, indexPage, indexRow) => {
 const hasFieldsRow = (pages, indexPage, indexRow) => {
     const row = pages[Number(indexPage)].rows[Number(indexRow)].columns;
 
-    return row.filter((elem, index) => elem.fields.length);
+    return !!row.filter((elem, index) => elem.fields.length).length;
 };
 
 const getIndexes = (node) => {
@@ -71,16 +81,17 @@ const getIndexes = (node) => {
     };
 };
 
-const updateColumn = (pages, indexPage, indexRow, indexColumn, newFields) => {
+const changeFieldsFromColumn = (pages, indexPage, indexRow, indexColumn, newFields) => {
     pages[Number(indexPage)].rows[Number(indexRow)].columns[Number(indexColumn)].fields = newFields;
 
     return pages;
 };
 
 export default {
-    addColumn,
     addFields,
+    addFieldToColumn,
     addRow,
+    changeFieldsFromColumn,
     getColumn,
     getIndexes,
     getRow,
@@ -89,5 +100,4 @@ export default {
     removeColumn,
     removeFields,
     removeRow,
-    updateColumn
 }

@@ -10,16 +10,21 @@ function getFieldsFromModules(modules, dependencies = []) {
     }).filter((element) => !element.includes(...dependencies));
 };
 
-function FieldsLoader(modules, dependencies, callback) {
+function FieldsLoader(callback, modules, dependencies = []) {
     const maps = getFieldsFromModules(modules, dependencies);
 
     if (maps.length > 0) {
         Liferay.Loader.require(...maps, callback);
 
-        return 'Fields loaded!';
+        return true;
     } else {
-        return 'No fields found!';
+        callback();
+        return false;
     }
 };
 
 export default FieldsLoader;
+export {
+    FieldsLoader,
+    getFieldsFromModules
+}

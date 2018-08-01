@@ -15,7 +15,7 @@ import templates from './LayoutRenderer.soy.js';
 class LayoutRenderer extends Component {
     static STATE = {
         /**
-         * @default undefined
+         * @default []
          * @instance
          * @memberof LayoutRenderer
          * @type {?array<object>}
@@ -31,7 +31,7 @@ class LayoutRenderer extends Component {
                     }))
                 }))
             })
-        ),
+        ).value([]),
 
         /**
          * @default 0
@@ -40,6 +40,14 @@ class LayoutRenderer extends Component {
          * @type {?number}
          */
         activePage: Config.number().value(0),
+
+        /**
+         * @default false
+         * @instance
+         * @memberof LayoutRenderer
+         * @type {?bool}
+         */
+        disabledDragAndDrop: Config.bool().value(false),
 
         /**
          * @default false
@@ -75,7 +83,6 @@ class LayoutRenderer extends Component {
             targets: '.ddm-target',
         });
 
-        this._dragAndDrop.on('click', this._handleDragAndDropClick.bind(this));
         this._dragAndDrop.on(DragDrop.Events.END, this._handleDragAndDropEnd.bind(this));
     }
 
@@ -83,19 +90,20 @@ class LayoutRenderer extends Component {
 	 * @inheritDoc
 	 */
     attached() {
-        if (this.editable) {
+        if (this.editable && !this.disabledDragAndDrop) {
             this._startDrag();
         }
     }
 
     /**
-	 * @inheritDoc
-	 */
-    willReceiveState(nextState) {
+     * @inheritDoc
+     */
+    willReceiveState(nextState) { 
         if (
             typeof nextState.pages !== 'undefined' && 
             nextState.pages.newVal.length && 
-            this.editable
+            this.editable &&
+            !this.disabledDragAndDrop
         ) {
             this._dragAndDrop.disposeInternal();
             this._startDrag();
@@ -115,7 +123,7 @@ class LayoutRenderer extends Component {
      * @private
      */
     _handleFocusSelectField(event) {
-        this._emitFieldClicked(event, 'edit');
+        this._emitFieldClicked(event.delegateTarget.parentElement.parentElement, 'edit');
     }
 
     /**
@@ -123,11 +131,11 @@ class LayoutRenderer extends Component {
      * @private
      */
     _handleOnClickResize(event) {
-        const handle = event.target;
-        const colNode = dom.closest(event, '.col-ddm');
-
         // TODO:
         // Logic to resize field...
+        // const handle = event.target;
+        // const colNode = dom.closest(event, '.col-ddm');
+        // 
         // dom.on(colNode, 'mousemove', this._handleMouseMove.bind(this, colNode));
         // dom.on(handle, 'mousedown', this._handleMouseMove.bind(this, handle));
     }
@@ -145,14 +153,6 @@ class LayoutRenderer extends Component {
     }
 
     /**
-     * @param {!Event}
-     * @private
-     */
-    _handleDragAndDropClick({originalEvent}) {
-        this._emitFieldClicked(originalEvent.delegateTarget.parentElement.parentElement, 'edit');
-    }
-
-    /**
      * @param {!Event} event
      * @param {!Object} data
      * @private
@@ -164,7 +164,7 @@ class LayoutRenderer extends Component {
 
         const indexTarget = LayoutSupport.getIndexes(data.target.parentElement);
         const indexSource = LayoutSupport.getIndexes(data.source.parentElement.parentElement);
-
+        
         data.source.innerHTML = '';
 
         this._handleFieldMove({

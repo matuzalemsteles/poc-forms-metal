@@ -72,7 +72,7 @@ class LayoutProvider extends Component {
             let newRow = LayoutSupport.implAddRow(12, [fieldProperties]);
             newContext = LayoutSupport.addRow(context, indexRow, indexPage, newRow);
         } else {
-            newContext = LayoutSupport.addColumn(context, indexPage, indexRow, indexColumn, fieldProperties);
+            newContext = LayoutSupport.addFieldToColumn(context, indexPage, indexRow, indexColumn, fieldProperties);
         }
 
         this.setState({
@@ -120,7 +120,7 @@ class LayoutProvider extends Component {
 
         const newField = Object.assign({}, fieldSelected[0], implPropertiesField);
 
-        const newContext = LayoutSupport.updateColumn(context, indexPage, indexRow, indexColumn, [newField]);
+        const newContext = LayoutSupport.changeFieldsFromColumn(context, indexPage, indexRow, indexColumn, [newField]);
 
         this.setState( {
             context: this.state.context
@@ -165,7 +165,7 @@ class LayoutProvider extends Component {
     _cleanRowEmpty(context, source) {
         const { indexRow, indexPage, indexColumn } = source;
 
-        if (LayoutSupport.hasFieldsRow(context, indexPage, indexRow).length === 0) {
+        if (LayoutSupport.hasFieldsRow(context, indexPage, indexRow)) {
             return LayoutSupport.removeRow(context, indexPage, indexRow);
         }
 
