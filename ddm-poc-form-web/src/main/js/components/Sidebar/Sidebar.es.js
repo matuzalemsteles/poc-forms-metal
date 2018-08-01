@@ -33,7 +33,15 @@ class Sidebar extends Component {
          * @memberof Sidebar
          * @type {?(array<object>|undefined)}
          */
-        context: Config.array(),
+        context: Config.array().value([]),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Sidebar
+         * @type {?(array<object>|undefined)}
+         */
+        fieldContext: Config.array().value([]),
 
         /**
          * @default {mode: 'add'}
@@ -52,6 +60,14 @@ class Sidebar extends Component {
          * @type {?(array|undefined)}
          */
         fieldLists: Config.array().value([]),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof Sidebar
+         * @type {?(string|undefined)}
+         */
+        spritemap: Config.string(),
 
         /**
          * @default object
