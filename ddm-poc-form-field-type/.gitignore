@@ -1,0 +1,3 @@
+*.soy.js
+*.soy.es.js
+coverage

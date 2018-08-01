@@ -1,0 +1,4 @@
+Bundle-Name: Liferay Dynamic Data Mapping POC Form Field Type
+Bundle-SymbolicName: com.liferay.ddm.poc.form.field.type
+Bundle-Version: 1.0.0
+Web-ContextPath: /ddm-poc-form-field-type
