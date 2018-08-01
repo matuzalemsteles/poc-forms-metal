@@ -1,6 +1,6 @@
 import {JSXComponent} from 'metal-jsx';
-import Context from './__mock__/mockContext';
-import LayoutProvider from '../LayoutProvider';
+import Context from './__mock__/mockContext.es';
+import LayoutProvider from '../LayoutProvider.es';
 
 let component;
 let context = null;
