@@ -129,16 +129,9 @@ class LayoutRenderer extends Component {
     /**
      * @param {!Event} event
      * @private
+     * @todo Logic to resize field.
      */
-    _handleOnClickResize(event) {
-        // TODO:
-        // Logic to resize field...
-        // const handle = event.target;
-        // const colNode = dom.closest(event, '.col-ddm');
-        // 
-        // dom.on(colNode, 'mousemove', this._handleMouseMove.bind(this, colNode));
-        // dom.on(handle, 'mousedown', this._handleMouseMove.bind(this, handle));
-    }
+    _handleOnClickResize(event) {}
 
     /**
      * @param {!Event} event
