@@ -85,44 +85,23 @@ class Sidebar extends Component {
         }),
     }
 
-    _startDrag() {
-        this._dragAndDrop = new DragDrop({
-            dragPlaceholder: Drag.Placeholder.CLONE,
-            sources: '.ddm-drag-item',
-            targets: '.ddm-target',
-        });
-
-        this._dragAndDrop.on(DragDrop.Events.END, this._handleFieldMove.bind(this));
-        this._dragAndDrop.on(DragDrop.Events.DRAG, this._handleDrag.bind(this));
-    }
-
-    attached() {
-        this._startDrag();
-    }
-
-    created() {
-        this._eventHandler = new EventHandler();
-    }
-
-    willReceiveProps(nextProps) {
-        if (
-            typeof nextProps.context !== 'undefined' && 
-            nextProps.context.newVal.length
-        ) {
-            this._dragAndDrop.disposeInternal();
-            this._startDrag();
+    _handleDocClick(event) {
+		if (this.element.contains(event.target)) {
+			return;
         }
+		this.close();
+    }
 
-        if (
-            typeof nextProps.fieldFocus !== 'undefined' && 
-            nextProps.fieldFocus.newVal.mode === 'edit'
-        ) {
-            this.show();
+    _handleDrag(event) {
+        const { show } = this.state;
+
+        if (show) {
+            this.close();
         }
     }
 
-    _handleOnClose() {
-        this.close();
+    _handleFieldEdit(data) {
+        this.emit('fieldEdit', data);
     }
 
     _handleFieldMove(data, event) {
@@ -150,46 +129,14 @@ class Sidebar extends Component {
         };
     }
 
-    _handleDrag(event) {
-        const { show } = this.state;
-
-        if (show) {
-            this.close();
-        }
-    }
-
-    _handleFieldEdit(data) {
-        this.emit('fieldEdit', data);
-    } 
-
     _handleOnClickTab(index, event) {
         event.preventDefault();
 
         this.state.tabActive = index;
     }
 
-    _handleDocClick(event) {
-		if (this.element.contains(event.target)) {
-			return;
-        }
-		this.close();
-    }
-
-    show() {
-        this.state.show = true;
-
-        this._eventHandler.add(
-            dom.on(document, 'click', this._handleDocClick.bind(this), true),
-        );
-    }
-
-    close() {
-        this.state.show = false;
-        this._eventHandler.removeAllListeners();
-    }
-
-    dispose() {
-        this._eventHandler.removeAllListeners();
+    _handleOnClose() {
+        this.close();
     }
 
     /**
@@ -201,6 +148,59 @@ class Sidebar extends Component {
         const { fieldFocus, fieldLists } = this.props;
 
         return fieldFocus.mode === 'edit' && fieldContext.length;
+    }
+
+    _startDrag() {
+        this._dragAndDrop = new DragDrop({
+            dragPlaceholder: Drag.Placeholder.CLONE,
+            sources: '.ddm-drag-item',
+            targets: '.ddm-target',
+        });
+
+        this._dragAndDrop.on(DragDrop.Events.END, this._handleFieldMove.bind(this));
+        this._dragAndDrop.on(DragDrop.Events.DRAG, this._handleDrag.bind(this));
+    }
+
+    attached() {
+        this._startDrag();
+    }
+
+    close() {
+        this.state.show = false;
+        this._eventHandler.removeAllListeners();
+    }
+
+    created() {
+        this._eventHandler = new EventHandler();
+    }
+
+    dispose() {
+        this._eventHandler.removeAllListeners();
+    }
+
+    show() {
+        this.state.show = true;
+
+        this._eventHandler.add(
+            dom.on(document, 'click', this._handleDocClick.bind(this), true),
+        );
+    }
+
+    willReceiveProps(nextProps) {
+        if (
+            typeof nextProps.context !== 'undefined' && 
+            nextProps.context.newVal.length
+        ) {
+            this._dragAndDrop.disposeInternal();
+            this._startDrag();
+        }
+
+        if (
+            typeof nextProps.fieldFocus !== 'undefined' && 
+            nextProps.fieldFocus.newVal.mode === 'edit'
+        ) {
+            this.show();
+        }
     }
 
     render() {
