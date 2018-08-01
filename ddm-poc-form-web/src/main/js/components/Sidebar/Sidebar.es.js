@@ -185,7 +185,9 @@ class Sidebar extends Component {
     _isEditMode() {
         const { fieldFocus, fieldLists } = this.props;
 
-        return fieldFocus.mode === 'edit' && fieldContext.length;
+        return fieldFocus.mode === 'edit' 
+            && fieldContext.length
+            && fieldLists.length;
     }
 
     /**
@@ -282,7 +284,7 @@ class Sidebar extends Component {
         }
         let currentField = null;
 
-        if (this._isEditMode() && fieldLists.length) {
+        if (this._isEditMode()) {
             currentField = fieldLists.find(item => {
                 return item.type == fieldFocus.type;
             });
