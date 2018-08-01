@@ -31,6 +31,9 @@
 		"transformIgnorePatterns": [
 			"<rootDir>.*(node_modules)(?!.*metal.*).*$"
 		],
+		"moduleNameMapper": {
+			"clay-(.*)$": "<rootDir>/node_modules/clay-$1"
+		},
 		"modulePathIgnorePatterns": [
 			"/classes/",
 			"/__mock__/",
