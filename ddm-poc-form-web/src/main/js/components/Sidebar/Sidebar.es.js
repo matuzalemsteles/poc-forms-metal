@@ -7,6 +7,10 @@ import Component, { Fragment } from 'metal-jsx';
 import dom from 'metal-dom';
 import LayoutRenderer, { LayoutSupport } from 'ddm-poc-form-js-components/Layout/index.js';
 
+/**
+ * Sidebar is a tooling to mount forms.
+ * @extends Component.
+ */
 class Sidebar extends Component {
     static STATE = {
         /**
@@ -85,6 +89,11 @@ class Sidebar extends Component {
         }),
     }
 
+    /**
+     * Handle the click of the document and close the sidebar when 
+     * clicking outside the Sidebar.
+     * @protected
+     */
     _handleDocClick(event) {
 		if (this.element.contains(event.target)) {
 			return;
@@ -92,6 +101,11 @@ class Sidebar extends Component {
 		this.close();
     }
 
+    /**
+     * Handle with drag and close sidebar when moving.
+     * @param {Event} event
+     * @protected
+     */
     _handleDrag(event) {
         const { show } = this.state;
 
@@ -100,10 +114,21 @@ class Sidebar extends Component {
         }
     }
 
+    /**
+     * Continues the propagation of event.
+     * @param {Object} data
+     * @protected
+     */
     _handleFieldEdit(data) {
         this.emit('fieldEdit', data);
     }
 
+    /**
+     * Handle a field move to dispatch the event to add in layout.
+     * @param {Event} event
+     * @param {Object} data
+     * @protected
+     */
     _handleFieldMove(data, event) {
         event.preventDefault();
 
@@ -123,18 +148,31 @@ class Sidebar extends Component {
         });
     }
 
+    /**
+     * Handle click on the previous button.
+     * @protected
+     */
     _handleOnClickPreviusTab() {
         this.props.fieldFocus = {
             mode: 'add',
         };
     }
 
+    /**
+     * Handle click on the tab item and manipulate the active tab.
+     * @param {Event} event
+     * @param {number} index
+     * @protected
+     */
     _handleOnClickTab(index, event) {
         event.preventDefault();
 
         this.state.tabActive = index;
     }
 
+    /**
+     * @protected
+     */
     _handleOnClose() {
         this.close();
     }
@@ -150,6 +188,10 @@ class Sidebar extends Component {
         return fieldFocus.mode === 'edit' && fieldContext.length;
     }
 
+    /**
+     * Start drag and drop and attach events to manipulate.
+     * @protected
+     */
     _startDrag() {
         this._dragAndDrop = new DragDrop({
             dragPlaceholder: Drag.Placeholder.CLONE,
@@ -161,23 +203,40 @@ class Sidebar extends Component {
         this._dragAndDrop.on(DragDrop.Events.DRAG, this._handleDrag.bind(this));
     }
 
+    /**
+     * @inheritDoc
+     */
     attached() {
         this._startDrag();
     }
 
+    /**
+     * Close the Sidebar and remove event to handle document click.
+     * @public
+     */
     close() {
         this.state.show = false;
         this._eventHandler.removeAllListeners();
     }
 
+    /**
+     * @inheritDoc
+     */
     created() {
         this._eventHandler = new EventHandler();
     }
 
+    /**
+     * @inheritDoc
+     */
     dispose() {
         this._eventHandler.removeAllListeners();
     }
 
+    /**
+     * Open the Sidebar and attach event to handle document click.
+     * @public
+     */
     show() {
         this.state.show = true;
 
@@ -186,6 +245,9 @@ class Sidebar extends Component {
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     willReceiveProps(nextProps) {
         if (
             typeof nextProps.context !== 'undefined' && 
@@ -203,6 +265,9 @@ class Sidebar extends Component {
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     render() {
         const { show, tabActive } = this.state;
         const { 
