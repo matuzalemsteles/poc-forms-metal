@@ -1,6 +1,6 @@
-import Context from './__mock__/mockContext';
-import createElement from './__mock__/createElement';
-import LayoutSupport from '../LayoutSupport';
+import Context from './__mock__/mockContext.es';
+import createElement from './__mock__/createElement.es';
+import LayoutSupport from '../LayoutSupport.es';
 
 let context = null;
 

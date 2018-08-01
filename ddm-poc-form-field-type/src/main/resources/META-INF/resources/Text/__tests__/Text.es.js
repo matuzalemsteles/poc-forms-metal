@@ -1,18 +1,18 @@
-import Checkbox from '../Checkbox';
-import {dom as MetalTestUtil} from 'metal-dom';
+import Text from '../Text.es';
+import { dom as MetalTestUtil} from 'metal-dom';
 
 let component;
 let spritemap = 'icons.svg';
 
-describe('Field Checkbox', () => {
+describe('Field Text', () => {
     afterEach(() => {
         if (component) {
 			component.dispose();
         }
     });
 
-    it('should be not edidable', () => {
-        component = new Checkbox({
+    it('should not be editable', () => {
+        component = new Text({
             editable: false,
             spritemap: spritemap
         });
@@ -21,7 +21,7 @@ describe('Field Checkbox', () => {
     });
 
     it('should have a helptext', () => {
-        component = new Checkbox({
+        component = new Text({
             helpText: 'Type something',
             spritemap: spritemap
         });
@@ -30,7 +30,7 @@ describe('Field Checkbox', () => {
     });
 
     it('should have an id', () => {
-        component = new Checkbox({
+        component = new Text({
             id: 'ID',
             spritemap: spritemap
         });
@@ -39,7 +39,7 @@ describe('Field Checkbox', () => {
     });
 
     it('should have a label', () => {
-        component = new Checkbox({
+        component = new Text({
             label: 'label',
             spritemap: spritemap
         });
@@ -47,9 +47,9 @@ describe('Field Checkbox', () => {
         expect(component).toMatchSnapshot();
     });
 
-    it('should have a predefined Value', () => {
-        component = new Checkbox({
-            placeholder: 'Option 1',
+    it('should have a placeholder', () => {
+        component = new Text({
+            placeholder: 'Placeholder',
             spritemap: spritemap
         });
 
@@ -57,7 +57,7 @@ describe('Field Checkbox', () => {
     });
 
     it('should not be required', () => {
-        component = new Checkbox({
+        component = new Text({
             required: false,
             spritemap: spritemap
         });
@@ -65,26 +65,8 @@ describe('Field Checkbox', () => {
         expect(component).toMatchSnapshot();
     });
 
-    it('should be shown as a switcher', () => {
-        component = new Checkbox({
-            showAsSwitcher: true,
-            spritemap: spritemap
-        });
-
-        expect(component).toMatchSnapshot();
-    });
-
-    it('should be shown as checkbox', () => {
-        component = new Checkbox({
-            showAsSwitcher: false,
-            spritemap: spritemap
-        });
-
-        expect(component).toMatchSnapshot();
-    });
-
     it('should render Label if showLabel is true', () => {
-        component = new Checkbox({
+        component = new Text({
             label: 'text',
             showLabel: true,
             spritemap: spritemap
@@ -94,7 +76,7 @@ describe('Field Checkbox', () => {
     });
 
     it('should have a spritemap', () => {
-        component = new Checkbox({
+        component = new Text({
             spritemap: spritemap
         });
 
@@ -102,8 +84,8 @@ describe('Field Checkbox', () => {
     });
 
     it('should have a value', () => {
-        component = new Checkbox({
-            value: true,
+        component = new Text({
+            value: 'value',
             spritemap: spritemap
         });
 
@@ -111,7 +93,7 @@ describe('Field Checkbox', () => {
     });
 
     it('should have a key', () => {
-        component = new Checkbox({
+        component = new Text({
             key: 'key',
             spritemap: spritemap
         });
@@ -119,27 +101,47 @@ describe('Field Checkbox', () => {
         expect(component).toMatchSnapshot();
     });
 
-    it('should emit field edit event on field change', () => {
-        const handleFieldChange = jest.fn();
-        const events = {fieldEdit: handleFieldChange};
-        component = new Checkbox({
+    it('should emit a field edit event on field value change', () => {
+        const handleFieldEdit = jest.fn();
+        const events = {fieldEdit: handleFieldEdit};
+        component = new Text({
             spritemap: spritemap,
             events
         });
 
-        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'change', {});
+        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'input', {});
 
-        expect(handleFieldChange).toHaveBeenCalled();
+        expect(handleFieldEdit).toHaveBeenCalled();
     });
 
-    it('should propagate the field edit event on field change', () => {
-        component = new Checkbox({
-            spritemap: spritemap
+    it('should emit a field edit with correct parameters', (done) => {
+        const handleFieldEdit = (data) => {
+            expect(data).toEqual(expect.objectContaining({
+                value: expect.any(String),
+                key: 'input',
+                originalEvent: expect.any(Object)
+            }));
+            done();
+        }
+        const events = {fieldEdit: handleFieldEdit};
+        component = new Text({
+            spritemap: spritemap,
+            key: 'input',
+            events
+        });
+
+        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'input', {});
+    });
+
+    it('should propagate the field edit event', () => {
+        component = new Text({
+            spritemap: spritemap,
+            key: 'input'
         });
 
         const spy = jest.spyOn(component, 'emit');
 
-        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'change', {});
+        MetalTestUtil.triggerEvent(component.element.querySelector('input'), 'input', {});
 
         expect(spy).toHaveBeenCalled();
         expect(spy).toHaveBeenCalledWith(
@@ -147,5 +149,4 @@ describe('Field Checkbox', () => {
 			expect.any(Object)
 		);
     });
-
 });

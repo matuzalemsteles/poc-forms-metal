@@ -1,4 +1,4 @@
-import Select from '../Select';
+import Select from '../Select.es';
 import { dom as MetalTestUtil} from 'metal-dom';
 
 let component;

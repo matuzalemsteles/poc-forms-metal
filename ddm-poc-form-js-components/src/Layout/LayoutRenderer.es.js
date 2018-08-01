@@ -3,7 +3,7 @@ import {DragDrop, Drag} from 'metal-drag-drop';
 import ClayButton from 'clay-button';
 import Component from 'metal-component';
 import dom from 'metal-dom';
-import LayoutSupport from './LayoutSupport';
+import LayoutSupport from './LayoutSupport.es';
 import Soy from 'metal-soy';
 
 import templates from './LayoutRenderer.soy.js';

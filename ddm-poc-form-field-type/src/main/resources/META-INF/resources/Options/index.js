@@ -1,3 +1,3 @@
-import Options from './Options';
+import Options from './Options.es';
 
 export default Options;

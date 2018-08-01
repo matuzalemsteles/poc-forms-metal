@@ -1,8 +1,8 @@
-import Context from './__mock__/mockContext';
-import Fields from './__fixtures__/Fields';
-import LayoutRenderer from '../LayoutRenderer';
+import Context from './__mock__/mockContext.es';
+import Fields from './__fixtures__/Fields.es';
+import LayoutRenderer from '../LayoutRenderer.es';
 import {dom as MetalTestsUtil} from 'metal-dom';
-import LayoutSupport from '../LayoutSupport';
+import LayoutSupport from '../LayoutSupport.es';
 
 let component;
 let context = null;

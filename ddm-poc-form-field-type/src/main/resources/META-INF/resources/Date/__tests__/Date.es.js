@@ -1,4 +1,4 @@
-import Date from '../Date';
+import Date from '../Date.es';
 
 let component;
 let spritemap = 'icons.svg';

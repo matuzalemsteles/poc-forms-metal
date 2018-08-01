@@ -1,4 +1,4 @@
-import { FieldsLoader, getFieldsFromModules } from '../FieldsLoader';
+import { FieldsLoader, getFieldsFromModules } from '../FieldsLoader.es';
 
 const modules = {
     "ddm-poc-field-type-date@1.0.0/lib/index.es": {

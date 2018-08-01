@@ -1,3 +1,3 @@
-import FieldsLoader from './FieldsLoader';
+import FieldsLoader from './FieldsLoader.es';
 
 export default FieldsLoader;
