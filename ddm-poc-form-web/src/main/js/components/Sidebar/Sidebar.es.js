@@ -46,6 +46,14 @@ class Sidebar extends Component {
         }),
 
         /**
+         * @default []
+         * @instance
+         * @memberof Sidebar
+         * @type {?(array|undefined)}
+         */
+        fieldLists: Config.array().value([]),
+
+        /**
          * @default object
          * @instance
          * @memberof Sidebar
@@ -108,10 +116,10 @@ class Sidebar extends Component {
             return;
         }
 
-        const { listFields } = this.props;
+        const { fieldLists } = this.props;
         const indexTarget = LayoutSupport.getIndexes(data.target.parentElement);
         const fieldIndex = data.source.getAttribute('data-ddm-field-type-index');
-        const fieldProperties = listFields[Number(fieldIndex)];
+        const fieldProperties = fieldLists[Number(fieldIndex)];
 
         this.emit('fieldAdd', {
             target: indexTarget,
@@ -172,7 +180,7 @@ class Sidebar extends Component {
         const { show, tabActive } = this.state;
         const { 
             spritemap, 
-            listFields, 
+            fieldLists, 
             fieldFocus, 
             context, 
             fieldContext 
@@ -183,7 +191,7 @@ class Sidebar extends Component {
         let currentField = null;
 
         if (fieldFocus.mode === 'edit') {
-            currentField = listFields.find(item => {
+            currentField = fieldLists.find(item => {
                 return item.type == fieldFocus.type;
             });
         }
@@ -307,9 +315,9 @@ class Sidebar extends Component {
     }
 
     _renderListElements() {
-        const { listFields, spritemap } = this.props;
+        const { fieldLists, spritemap } = this.props;
 
-        return listFields.map((field, index) => {
+        return fieldLists.map((field, index) => {
             return(
                 <div class="ddm-drag-item list-group-item list-group-item-flex" data-ddm-field-type-index={index}>
                     <div class="autofit-col">
