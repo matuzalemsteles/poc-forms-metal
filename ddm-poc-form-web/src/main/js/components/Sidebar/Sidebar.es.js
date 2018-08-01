@@ -192,6 +192,17 @@ class Sidebar extends Component {
         this._eventHandler.removeAllListeners();
     }
 
+    /**
+     * Checks whether it is safe to go to edit mode.
+     * @protected
+     * @returns {bool}
+     */
+    _isEditMode() {
+        const { fieldFocus, fieldLists } = this.props;
+
+        return fieldFocus.mode === 'edit' && fieldContext.length;
+    }
+
     render() {
         const { show, tabActive } = this.state;
         const { 
@@ -206,7 +217,7 @@ class Sidebar extends Component {
         }
         let currentField = null;
 
-        if (fieldFocus.mode === 'edit') {
+        if (this._isEditMode() && fieldLists.length) {
             currentField = fieldLists.find(item => {
                 return item.type == fieldFocus.type;
             });
@@ -235,7 +246,7 @@ class Sidebar extends Component {
                                         </div>
                                     </li>
                                 )}
-                                {fieldFocus.mode === 'edit' && (
+                                {this._isEditMode() && (
                                     <Fragment>
                                         <li class="tbar-item">
                                             <ClayButton
@@ -284,7 +295,7 @@ class Sidebar extends Component {
                         </div>
                     </nav>
                     <div class="ddm-sidebar-body">
-                        {fieldFocus.mode === 'add' && (
+                        {(fieldFocus.mode === 'add' && !!fieldLists.length) && (
                             <ul class="list-group">
                                 <li class="list-group-header">
                                     <h3 class="list-group-header-title">Basic Elements</h3>
@@ -292,7 +303,7 @@ class Sidebar extends Component {
                                 {this._renderListElements()}
                             </ul>
                         )}
-                        {fieldFocus.mode === 'edit' && (
+                        {this._isEditMode() && (
                             <div class="sidebar-body">
                                 <div class="tab-content">
                                     <LayoutRenderer
