@@ -42,7 +42,23 @@ class LayoutProvider extends Component {
          * @memberof LayoutProvider
          * @type {?object}
          */
-        fieldFocus: Config.object()
+        fieldFocus: Config.shapeOf({
+            indexColumn: Config.oneOfType([
+                Config.bool().value(false),
+                Config.number()
+            ]).required(),
+            indexPage: Config.number().required(),
+            indexRow: Config.number().required(),
+            type: Config.string().required(),
+        }).value({}),
+
+        /**
+         * @default add
+         * @instance
+         * @memberof LayoutProvider
+         * @type {?string}
+         */
+        mode: Config.oneOf(['add', 'edit']).value('add'),
     }
 
     /**
@@ -55,12 +71,13 @@ class LayoutProvider extends Component {
     }
 
     /**
-     * @param {!Object} indexAllocateField
+     * @param {!Object} data
      * @private
      */
-    _handleFieldClicked(indexAllocateField) {
+    _handleFieldClicked(data) {
         this.setState({
-            fieldFocus: indexAllocateField
+            fieldFocus: data,
+            mode: 'edit'
         });
     }
 
@@ -90,9 +107,9 @@ class LayoutProvider extends Component {
                 indexColumn,
                 indexPage,
                 indexRow,
-                mode: 'edit',
                 type: fieldProperties.type,
             },
+            mode: 'edit'
         });
     }
 
@@ -107,9 +124,7 @@ class LayoutProvider extends Component {
 
         this.setState({
             context: newContext,
-            fieldFocus: {
-                mode: 'add',
-            }
+            fieldFocus: {}
         });
     }
 
@@ -155,9 +170,7 @@ class LayoutProvider extends Component {
 
         this.setState({
             context: newContext,
-            fieldFocus: {
-                mode: 'add',
-            }
+            fieldFocus: {}
         });
 
         newContext = null;
@@ -217,7 +230,7 @@ class LayoutProvider extends Component {
 
     render() {
         const { children } = this.props;
-        const { fieldFocus, context } = this.state;
+        const { fieldFocus, context, mode } = this.state;
 
         if (children.length) {
             const Child = children[0];
@@ -230,7 +243,7 @@ class LayoutProvider extends Component {
                 fieldMove: this._handleFieldMove.bind(this),
             };
 
-            Object.assign(Child.props, {...this.otherProps(), events, context, fieldFocus});
+            Object.assign(Child.props, {...this.otherProps(), events, context, fieldFocus, mode});
 
             return Child;
         }

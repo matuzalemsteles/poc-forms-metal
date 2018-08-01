@@ -76,7 +76,7 @@ describe('LayoutProvider', () => {
             indexColumn: 0,
             indexPage: 0,
             indexRow: 0,
-            mode: 'edit'
+            type: 'radio'
         };
 
         provider.setState({
@@ -86,6 +86,20 @@ describe('LayoutProvider', () => {
         jest.runAllTimers();
 
         expect(child.props.fieldFocus).toEqual(provider.state.fieldFocus);
+    });
+
+    it('should pass to the child component the mode', () => {
+        component = new Parent();
+
+        const { provider, child } = component.refs;
+
+        provider.setState({
+            mode: 'edit'
+        });
+
+        jest.runAllTimers();
+
+        expect(child.props.mode).toEqual(provider.state.mode);
     });
 
     describe('Field events', () => {
@@ -112,9 +126,6 @@ describe('LayoutProvider', () => {
                 jest.runAllTimers();
     
                 expect(provider.state.context).toMatchSnapshot();
-                expect(provider.state.fieldFocus).toMatchObject({
-                    mode: 'add'
-                });
                 expect(child.props.context).toEqual(provider.state.context);
             });
     
@@ -260,7 +271,6 @@ describe('LayoutProvider', () => {
     
                 const fieldFocus = {
                     ...mockEvent.target,
-                    mode: 'edit',
                     type: mockEvent.fieldProperties.type
                 };
     
@@ -268,6 +278,7 @@ describe('LayoutProvider', () => {
     
                 expect(provider.state.fieldFocus).toEqual(fieldFocus);
                 expect(child.props.fieldFocus).toEqual(fieldFocus);
+                expect(provider.state.mode).toBe('edit');
             });
         });
 
