@@ -193,6 +193,29 @@ describe('LayoutRenderer', () => {
 		);
     });
 
+    it('should emit a fieldClicked event with the field location', () => {
+        component = new LayoutRenderer({
+            disabledDragAndDrop: true,
+            editable: true,
+            pages: context,
+            spritemap
+        });
+
+        const spy = jest.spyOn(component, 'emit');
+
+        component.element.querySelector(".ddm-drag").click();
+
+        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledWith(
+			'fieldClicked',
+			expect.objectContaining({
+                indexColumn: expect.anything(),
+                indexPage: expect.any(Number),
+                indexRow: expect.any(Number)
+            })
+		);
+    });
+
     it('should render a layout and reset drag and drop to every change of API pages when editable is true', () => {
         component = new LayoutRenderer({
             editable: true,

@@ -117,13 +117,13 @@ class LayoutRenderer extends Component {
     _handleFieldChange(data) {
         this.emit('fieldEdit', data);
     }
-    
+
     /**
      * @param {!Event} event
      * @private
      */
     _handleFocusSelectField(event) {
-        this._emitFieldClicked(event.delegateTarget.parentElement.parentElement, 'edit');
+        this._emitFieldClicked(event.delegateTarget.parentElement.parentElement);
     }
 
     /**
@@ -188,15 +188,13 @@ class LayoutRenderer extends Component {
 
     /**
      * @param {!Event} event
-     * @param {!String} mode
      * @private
      */
-    _emitFieldClicked(event, mode) {
+    _emitFieldClicked(event) {
         const index = LayoutSupport.getIndexes(event);
 
         this.emit('fieldClicked', {
-            ...index,
-            mode,
+            ...index
         });
     }
 }
