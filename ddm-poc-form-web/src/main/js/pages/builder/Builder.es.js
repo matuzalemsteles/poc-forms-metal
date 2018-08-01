@@ -69,9 +69,7 @@ class Builder extends Component {
     _handleCreationButtonClicked(event) {
         const Sidebar = this.refs.sidebar;
 
-        Sidebar.props.fieldFocus = {
-            mode: 'add'
-        };
+        Sidebar.props.mode = 'add';
         Sidebar.show();
     }
 
@@ -85,7 +83,8 @@ class Builder extends Component {
             fieldFocus, 
             listFields, 
             showEditor,
-            spritemap
+            spritemap,
+            mode
         } = this.props;
 
         const layoutRendererEvents = {
@@ -126,6 +125,7 @@ class Builder extends Component {
                         events={sidebarEvents}
                         fieldFocus={fieldFocus}
                         fieldLists={listFields}
+                        mode={mode}
                         ref="sidebar"
                         spritemap={spritemap}
                     />

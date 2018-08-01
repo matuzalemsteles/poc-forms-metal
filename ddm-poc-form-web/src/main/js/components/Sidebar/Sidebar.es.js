@@ -22,6 +22,14 @@ class Sidebar extends Component {
         show: Config.bool().value(false),
 
         /**
+         * @default add
+         * @instance
+         * @memberof Sidebar
+         * @type {?string}
+         */
+        mode: Config.oneOf(['add', 'edit']).value('add'),
+
+        /**
          * @default 0
          * @instance
          * @memberof Sidebar
@@ -48,14 +56,20 @@ class Sidebar extends Component {
         fieldContext: Config.array().value([]),
 
         /**
-         * @default {mode: 'add'}
+         * @default {}
          * @instance
          * @memberof Sidebar
          * @type {?object}
          */
-        fieldFocus: Config.object().value({
-            mode: 'add'
-        }),
+        fieldFocus: Config.shapeOf({
+            indexColumn: Config.oneOfType([
+                Config.bool().value(false),
+                Config.number()
+            ]),
+            indexPage: Config.number(),
+            indexRow: Config.number(),
+            type: Config.string().required(),
+        }).value({}),
 
         /**
          * @default []
@@ -64,6 +78,16 @@ class Sidebar extends Component {
          * @type {?(array|undefined)}
          */
         fieldLists: Config.array().value([]),
+
+        /**
+         * @default add
+         * @instance
+         * @memberof Sidebar
+         * @type {?string}
+         */
+        mode: Config.oneOf(['add', 'edit'])
+            .setter('_setMode')
+            .value('add'),
 
         /**
          * @default undefined
@@ -153,9 +177,7 @@ class Sidebar extends Component {
      * @protected
      */
     _handleOnClickPreviusTab() {
-        this.props.fieldFocus = {
-            mode: 'add',
-        };
+        this.state.mode = 'add';
     }
 
     /**
@@ -184,10 +206,24 @@ class Sidebar extends Component {
      */
     _isEditMode() {
         const { fieldFocus, fieldLists } = this.props;
+        const { mode } = this.state;
 
-        return fieldFocus.mode === 'edit' 
+        return mode === 'edit'
+            && !(
+                Object.keys(fieldFocus).length === 0 
+                && fieldFocus.constructor === Object
+            )
             && fieldContext.length
             && fieldLists.length;
+    }
+
+    /**
+     * Set the internal mode state.
+     * @param {String} mode
+     * @protected
+     */
+    _setMode(mode) {
+        this.state.mode = mode;
     }
 
     /**
@@ -260,8 +296,8 @@ class Sidebar extends Component {
         }
 
         if (
-            typeof nextProps.fieldFocus !== 'undefined' && 
-            nextProps.fieldFocus.newVal.mode === 'edit'
+            typeof nextProps.mode !== 'undefined' && 
+            nextProps.mode.newVal.mode === 'edit'
         ) {
             this.show();
         }
@@ -271,7 +307,7 @@ class Sidebar extends Component {
      * @inheritDoc
      */
     render() {
-        const { show, tabActive } = this.state;
+        const { show, tabActive, mode } = this.state;
         const { 
             spritemap, 
             fieldLists, 
@@ -279,6 +315,7 @@ class Sidebar extends Component {
             context, 
             fieldContext 
         } = this.props;
+
         const layoutRenderEvents = {
             fieldEdit: this._handleFieldEdit.bind(this)
         }
@@ -304,7 +341,7 @@ class Sidebar extends Component {
                     <nav class="component-tbar tbar">
                         <div class="container-fluid">
                             <ul class="tbar-nav">
-                                {fieldFocus.mode === 'add' && (
+                                {mode === 'add' && (
                                     <li class="tbar-item tbar-item-expand text-left">
                                         <div class="tbar-section">
                                             <span class="text-truncate-inline">
@@ -362,7 +399,7 @@ class Sidebar extends Component {
                         </div>
                     </nav>
                     <div class="ddm-sidebar-body">
-                        {(fieldFocus.mode === 'add' && !!fieldLists.length) && (
+                        {(mode === 'add' && !!fieldLists.length) && (
                             <ul class="list-group">
                                 <li class="list-group-header">
                                     <h3 class="list-group-header-title">Basic Elements</h3>
@@ -390,10 +427,10 @@ class Sidebar extends Component {
     }
 
     _renderNavItem() {
-        const { tabActive } = this.state;
-        const { fieldFocus, tabs } = this.props;
+        const { tabActive, mode } = this.state;
+        const { tabs } = this.props;
 
-        return tabs[fieldFocus.mode].items.map((name, index) => {
+        return tabs[mode].items.map((name, index) => {
             const style = classnames('nav-link', {
                 'active': index === tabActive,
             });
