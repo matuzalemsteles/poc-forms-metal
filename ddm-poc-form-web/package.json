@@ -15,7 +15,7 @@
 	},
 	"name": "ddm-poc-form-web",
 	"private": true,
-	"main": "lib/main.js",
+	"main": "lib/main.es.js",
 	"scripts": {
 		"build": "babel --source-maps -d classes/META-INF/resources/lib src/main/js && liferay-npm-bundler",
 		"soy": "metalsoy --soyDeps './node_modules/com.liferay.frontend.taglib.clay/META-INF/resources/node_modules/*/src/*.soy'"

@@ -1,3 +1,3 @@
-import FieldBase from './FieldBase';
+import FieldBase from './FieldBase.es';
 
 export default FieldBase;

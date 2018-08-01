@@ -1,5 +1,5 @@
-import LayoutRenderer from './LayoutRenderer';
-import LayoutSupport from './LayoutSupport';
+import LayoutRenderer from './LayoutRenderer.es';
+import LayoutSupport from './LayoutSupport.es';
 
 export default LayoutRenderer;
 export {

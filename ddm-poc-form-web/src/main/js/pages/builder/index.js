@@ -1,3 +1,3 @@
-import Builder from './Builder';
+import Builder from './Builder.es';
 
 export default Builder;

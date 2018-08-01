@@ -1,4 +1,4 @@
-import LayoutRenderer from './__fixtures__/LayoutRenderer';
+import LayoutRenderer from './__fixtures__/LayoutRenderer.es';
 import Checkbox from '../Checkbox';
 import Date from '../Date';
 import Grid from '../Grid';

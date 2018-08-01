@@ -1,3 +1,3 @@
-import Radio from './Radio';
+import Radio from './Radio.es';
 
 export default Radio;

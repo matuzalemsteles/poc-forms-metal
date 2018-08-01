@@ -1,3 +1,3 @@
-import withAppComposer from './withAppComposer';
+import withAppComposer from './withAppComposer.es';
 
 export default withAppComposer;

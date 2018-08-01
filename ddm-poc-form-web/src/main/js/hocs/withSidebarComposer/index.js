@@ -1,3 +1,3 @@
-import withSidebarComposer from './withSidebarComposer';
+import withSidebarComposer from './withSidebarComposer.es';
 
 export default withSidebarComposer;

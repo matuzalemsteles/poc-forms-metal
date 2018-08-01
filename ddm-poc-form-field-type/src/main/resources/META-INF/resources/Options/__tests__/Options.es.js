@@ -1,4 +1,4 @@
-import Options from '../Options';
+import Options from '../Options.es';
 import {dom as MetalTestUtil} from 'metal-dom';
 
 let component;

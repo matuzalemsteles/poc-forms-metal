@@ -1,5 +1,5 @@
-import Sidebar from './Sidebar';
-import SidebarProvider from './SidebarProvider';
+import Sidebar from './Sidebar.es';
+import SidebarProvider from './SidebarProvider.es';
 
 export default Sidebar;
 export {

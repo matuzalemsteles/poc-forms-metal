@@ -24,7 +24,7 @@
 		]
 	},
 	"name": "ddm-poc-form-field-type",
-	"main": "./src/main/resources/META-INF/resources/",
+	"main": "./",
 	"private": true,
 	"scripts": {
 		"build": "npm run soy && babel --source-maps -d classes/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler",
