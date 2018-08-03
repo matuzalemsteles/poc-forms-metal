@@ -185,7 +185,7 @@ class LayoutProvider extends Component {
     _cleanRowEmpty(context, source) {
         const { indexRow, indexPage, indexColumn } = source;
 
-        if (LayoutSupport.hasFieldsRow(context, indexPage, indexRow)) {
+        if (!LayoutSupport.hasFieldsRow(context, indexPage, indexRow)) {
             return LayoutSupport.removeRow(context, indexPage, indexRow);
         }
 
