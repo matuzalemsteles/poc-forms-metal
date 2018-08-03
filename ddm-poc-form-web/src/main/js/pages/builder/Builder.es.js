@@ -105,6 +105,7 @@ class Builder extends Component {
                     events={clayManagementToolbarEvents}
                     showSearch={false}
                     spritemap={spritemap}
+                    ref="managementToolbar"
                 />
                 <div class="container">
                     <div class="sheet">
