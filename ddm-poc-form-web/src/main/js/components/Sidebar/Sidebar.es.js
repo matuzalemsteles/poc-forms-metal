@@ -85,9 +85,7 @@ class Sidebar extends Component {
          * @memberof Sidebar
          * @type {?string}
          */
-        mode: Config.oneOf(['add', 'edit'])
-            .setter('_setMode')
-            .value('add'),
+        mode: Config.oneOf(['add', 'edit']).value('add'),
 
         /**
          * @default undefined
@@ -95,7 +93,7 @@ class Sidebar extends Component {
          * @memberof Sidebar
          * @type {?(string|undefined)}
          */
-        spritemap: Config.string(),
+        spritemap: Config.string().required(),
 
         /**
          * @default object
@@ -116,6 +114,7 @@ class Sidebar extends Component {
     /**
      * Handle the click of the document and close the sidebar when 
      * clicking outside the Sidebar.
+     * @param {Event} event
      * @protected
      */
     _handleDocClick(event) {
@@ -127,15 +126,10 @@ class Sidebar extends Component {
 
     /**
      * Handle with drag and close sidebar when moving.
-     * @param {Event} event
      * @protected
      */
-    _handleDrag(event) {
-        const { show } = this.state;
-
-        if (show) {
-            this.close();
-        }
+    _handleDrag() {
+        this.close();
     }
 
     /**
@@ -176,7 +170,7 @@ class Sidebar extends Component {
      * Handle click on the previous button.
      * @protected
      */
-    _handleOnClickPreviusTab() {
+    _handleOnClickPrevious() {
         this.state.mode = 'add';
     }
 
@@ -201,20 +195,20 @@ class Sidebar extends Component {
 
     /**
      * Checks whether it is safe to go to edit mode.
+     * @param {string} mode
      * @protected
      * @returns {bool}
      */
-    _isEditMode() {
-        const { fieldFocus, fieldLists } = this.props;
-        const { mode } = this.state;
+    _isEditMode(mode = this.state.mode) {
+        const { fieldFocus, fieldLists, fieldContext } = this.props;
 
-        return mode === 'edit'
+        return !!(mode === 'edit'
             && !(
                 Object.keys(fieldFocus).length === 0 
                 && fieldFocus.constructor === Object
             )
             && fieldContext.length
-            && fieldLists.length;
+            && fieldLists.length);
     }
 
     /**
@@ -223,7 +217,9 @@ class Sidebar extends Component {
      * @protected
      */
     _setMode(mode) {
-        this.state.mode = mode;
+        if (this._isEditMode(mode)) {
+            this.state.mode = mode;
+        }
     }
 
     /**
@@ -262,6 +258,7 @@ class Sidebar extends Component {
      */
     created() {
         this._eventHandler = new EventHandler();
+        this._setMode(this.props.mode);
     }
 
     /**
@@ -296,10 +293,18 @@ class Sidebar extends Component {
         }
 
         if (
-            typeof nextProps.mode !== 'undefined' && 
-            nextProps.mode.newVal.mode === 'edit'
+            typeof nextProps.mode !== 'undefined' &&
+            nextProps.mode.newVal &&
+            this._isEditMode(nextProps.mode.newVal)
         ) {
             this.show();
+        }
+
+        if (
+            typeof nextProps.mode !== 'undefined' &&
+            nextProps.mode.newVal
+        ) {
+            this._setMode(nextProps.mode.newVal);
         }
     }
 
@@ -321,7 +326,7 @@ class Sidebar extends Component {
         }
         let currentField = null;
 
-        if (this._isEditMode()) {
+        if (mode === 'edit') {
             currentField = fieldLists.find(item => {
                 return item.type == fieldFocus.type;
             });
@@ -332,7 +337,7 @@ class Sidebar extends Component {
         });
 
         const angleLeftEvents = {
-            click: this._handleOnClickPreviusTab.bind(this),
+            click: this._handleOnClickPrevious.bind(this),
         };
 
         return(
@@ -350,7 +355,7 @@ class Sidebar extends Component {
                                         </div>
                                     </li>
                                 )}
-                                {this._isEditMode() && (
+                                {mode === 'edit' && (
                                     <Fragment>
                                         <li class="tbar-item">
                                             <ClayButton
@@ -358,6 +363,7 @@ class Sidebar extends Component {
                                                 icon="angle-left"
                                                 spritemap={spritemap}
                                                 style="secondary"
+                                                ref="previousButton"
                                                 size="sm"
                                             />
                                         </li>
@@ -376,7 +382,7 @@ class Sidebar extends Component {
                                     </Fragment>
                                 )}
                                 <li class="tbar-item">
-                                    <a class="component-action" href="#1" role="button" data-onclick={this._handleOnClose.bind(this)}>
+                                    <a class="component-action" href="#1" role="button" data-onclick={this._handleOnClose.bind(this)} ref="close">
                                         <svg aria-hidden="true" class="lexicon-icon lexicon-icon-times">
                                             <use xlink:href={`${spritemap}#times`} />
                                         </svg>
@@ -407,7 +413,7 @@ class Sidebar extends Component {
                                 {this._renderListElements()}
                             </ul>
                         )}
-                        {this._isEditMode() && (
+                        {mode === 'edit' && (
                             <div class="sidebar-body">
                                 <div class="tab-content">
                                     <LayoutRenderer
@@ -415,6 +421,7 @@ class Sidebar extends Component {
                                         events={layoutRenderEvents}
                                         modeRenderer="list"
                                         pages={fieldContext}
+                                        ref="layoutRenderer"
                                         spritemap={spritemap}
                                     />
                                 </div>
@@ -436,7 +443,7 @@ class Sidebar extends Component {
             });
 
             return (
-                <li class="nav-item" data-onclick={this._handleOnClickTab.bind(this, index)}>
+                <li ref={`tab${index}`} class="nav-item" data-onclick={this._handleOnClickTab.bind(this, index)}>
                     <a aria-controls="sidebarLightDetails" class={style} data-toggle="tab" href="#" role="tab">
                         <span class="navbar-text-truncate">{name}</span>
                     </a>
@@ -450,7 +457,7 @@ class Sidebar extends Component {
 
         return fieldLists.map((field, index) => {
             return(
-                <div class="ddm-drag-item list-group-item list-group-item-flex" data-ddm-field-type-index={index}>
+                <div ref={`field${index}`} class="ddm-drag-item list-group-item list-group-item-flex" data-ddm-field-type-index={index}>
                     <div class="autofit-col">
                         <div class="sticker sticker-secondary">
                                 <svg aria-hidden="true" class={`lexicon-icon lexicon-icon-${field.icon}`}>
