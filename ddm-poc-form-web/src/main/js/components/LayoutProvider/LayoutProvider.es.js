@@ -14,9 +14,17 @@ class LayoutProvider extends Component {
          * @default undefined
          * @instance
          * @memberof LayoutProvider
-         * @type {?array}
+         * @type {?(array|undefined)}
          */
-        context: Config.array()
+        context: Config.array(),
+
+        /**
+         * @default undefined
+         * @instance
+         * @memberof LayoutProvider
+         * @type {?(array|undefined)}
+         */
+        spritemap: Config.string()
     }
 
     static STATE = {
@@ -34,7 +42,23 @@ class LayoutProvider extends Component {
          * @memberof LayoutProvider
          * @type {?object}
          */
-        fieldFocus: Config.object()
+        fieldFocus: Config.shapeOf({
+            indexColumn: Config.oneOfType([
+                Config.bool().value(false),
+                Config.number()
+            ]).required(),
+            indexPage: Config.number().required(),
+            indexRow: Config.number().required(),
+            type: Config.string().required(),
+        }).value({}),
+
+        /**
+         * @default add
+         * @instance
+         * @memberof LayoutProvider
+         * @type {?string}
+         */
+        mode: Config.oneOf(['add', 'edit']).value('add'),
     }
 
     /**
@@ -47,12 +71,13 @@ class LayoutProvider extends Component {
     }
 
     /**
-     * @param {!Object} indexAllocateField
+     * @param {!Object} data
      * @private
      */
-    _handleFieldClicked(indexAllocateField) {
+    _handleFieldClicked(data) {
         this.setState({
-            fieldFocus: indexAllocateField
+            fieldFocus: data,
+            mode: 'edit'
         });
     }
 
@@ -61,7 +86,8 @@ class LayoutProvider extends Component {
      * @private
      */
     _handleFieldAdd({ target, fieldProperties, data }) {
-        const { context, spritemap } = this.props;
+        const { spritemap } = this.props;
+        const { context } = this.state;
         const { indexRow, indexPage, indexColumn } = target;
 
         fieldProperties = Object.assign({}, fieldProperties, {spritemap});
@@ -81,9 +107,9 @@ class LayoutProvider extends Component {
                 indexColumn,
                 indexPage,
                 indexRow,
-                mode: 'edit',
                 type: fieldProperties.type,
             },
+            mode: 'edit'
         });
     }
 
@@ -92,15 +118,13 @@ class LayoutProvider extends Component {
      * @private
      */
     _handleFieldDelete({ indexRow, indexPage, indexColumn }) {
-        const { context } = this.props;
+        const { context } = this.state;
         let newContext = LayoutSupport.removeFields(context, indexPage, indexRow, indexColumn);
         newContext = this._cleanRowEmpty(newContext, { indexRow, indexPage, indexColumn });
 
         this.setState({
             context: newContext,
-            fieldFocus: {
-                mode: 'add',
-            }
+            fieldFocus: {}
         });
     }
 
@@ -109,8 +133,7 @@ class LayoutProvider extends Component {
      * @private
      */
     _handleFieldEdit({value, key}) {
-        const { context } = this.state;
-        const { fieldFocus } = this.state;
+        const { context, fieldFocus } = this.state;
         const { indexColumn, indexPage, indexRow } = fieldFocus;
         const fieldSelected = LayoutSupport.getColumn(context, indexPage, indexRow, indexColumn);
 
@@ -122,18 +145,17 @@ class LayoutProvider extends Component {
 
         const newContext = LayoutSupport.changeFieldsFromColumn(context, indexPage, indexRow, indexColumn, [newField]);
 
-        this.setState( {
+        this.setState({
             context: this.state.context
         });
-
     }
 
     /**
      * @param {!Object}
      * @private
      */
-    _handleFieldMove({ target, source, data }) {
-        const { context } = this.props;
+    _handleFieldMove({ target, source }) {
+        const { context } = this.state;
         const fieldSourceToMove = this._getFieldSourceToMove(context, source);
 
         let newContext = LayoutSupport.removeFields(context, source.indexPage, source.indexRow, source.indexColumn);
@@ -148,9 +170,7 @@ class LayoutProvider extends Component {
 
         this.setState({
             context: newContext,
-            fieldFocus: {
-                mode: 'add',
-            }
+            fieldFocus: {}
         });
 
         newContext = null;
@@ -165,7 +185,7 @@ class LayoutProvider extends Component {
     _cleanRowEmpty(context, source) {
         const { indexRow, indexPage, indexColumn } = source;
 
-        if (LayoutSupport.hasFieldsRow(context, indexPage, indexRow)) {
+        if (!LayoutSupport.hasFieldsRow(context, indexPage, indexRow)) {
             return LayoutSupport.removeRow(context, indexPage, indexRow);
         }
 
@@ -210,20 +230,25 @@ class LayoutProvider extends Component {
 
     render() {
         const { children } = this.props;
-        const { fieldFocus, context } = this.state;
-        const Child = children[0];
+        const { fieldFocus, context, mode } = this.state;
 
-        const events = {
-            fieldAdd: this._handleFieldAdd.bind(this),
-            fieldEdit: this._handleFieldEdit.bind(this),
-            fieldClicked: this._handleFieldClicked.bind(this),
-            fieldDelete: this._handleFieldDelete.bind(this),
-            fieldMove: this._handleFieldMove.bind(this),
-        };
+        if (children.length) {
+            const Child = children[0];
 
-        Object.assign(Child.props, {...this.otherProps(), events, context, fieldFocus});
+            const events = {
+                fieldAdd: this._handleFieldAdd.bind(this),
+                fieldEdit: this._handleFieldEdit.bind(this),
+                fieldClicked: this._handleFieldClicked.bind(this),
+                fieldDelete: this._handleFieldDelete.bind(this),
+                fieldMove: this._handleFieldMove.bind(this),
+            };
 
-        return Child;
+            Object.assign(Child.props, {...this.otherProps(), events, context, fieldFocus, mode});
+
+            return Child;
+        }
+
+        return;
     }
 }
 

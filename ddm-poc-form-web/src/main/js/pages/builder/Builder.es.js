@@ -1,12 +1,9 @@
 import {ClayManagementToolbar} from 'clay-management-toolbar';
 import ClayButton from 'clay-button';
 import Component from 'metal-jsx';
-import Sidebar, { SidebarProvider } from '../../components/Sidebar/index.js';
-import withSidebarComposer from '../../hocs/withSidebarComposer/index.js';
+import Sidebar from '../../components/Sidebar/index.js';
 
 import LayoutRenderer from 'ddm-poc-form-js-components/Layout/index.js';
-
-const SidebarProviderWithSidebarComposer = withSidebarComposer(SidebarProvider);
 
 /**
  * Builder.
@@ -69,9 +66,7 @@ class Builder extends Component {
     _handleCreationButtonClicked(event) {
         const Sidebar = this.refs.sidebar;
 
-        Sidebar.props.fieldFocus = {
-            mode: 'add'
-        };
+        Sidebar.props.mode = 'add';
         Sidebar.show();
     }
 
@@ -85,7 +80,8 @@ class Builder extends Component {
             fieldFocus, 
             listFields, 
             showEditor,
-            spritemap
+            spritemap,
+            mode
         } = this.props;
 
         const layoutRendererEvents = {
@@ -109,6 +105,7 @@ class Builder extends Component {
                     events={clayManagementToolbarEvents}
                     showSearch={false}
                     spritemap={spritemap}
+                    ref="managementToolbar"
                 />
                 <div class="container">
                     <div class="sheet">
@@ -121,15 +118,15 @@ class Builder extends Component {
                         />
                     </div>
                 </div>
-                <SidebarProviderWithSidebarComposer {...this.props}>
-                    <Sidebar
-                        events={sidebarEvents}
-                        fieldFocus={fieldFocus}
-                        listFields={listFields}
-                        ref="sidebar"
-                        spritemap={spritemap}
-                    />
-                </SidebarProviderWithSidebarComposer>
+                <Sidebar
+                    context={context}
+                    events={sidebarEvents}
+                    fieldFocus={fieldFocus}
+                    fieldLists={listFields}
+                    mode={mode}
+                    ref="sidebar"
+                    spritemap={spritemap}
+                />
             </div>
         );
     }

@@ -117,28 +117,21 @@ class LayoutRenderer extends Component {
     _handleFieldChange(data) {
         this.emit('fieldEdit', data);
     }
-    
-    /**
-     * @param {!Event} event
-     * @private
-     */
-    _handleFocusSelectField(event) {
-        this._emitFieldClicked(event.delegateTarget.parentElement.parentElement, 'edit');
-    }
 
     /**
      * @param {!Event} event
      * @private
      */
-    _handleOnClickResize(event) {
-        // TODO:
-        // Logic to resize field...
-        // const handle = event.target;
-        // const colNode = dom.closest(event, '.col-ddm');
-        // 
-        // dom.on(colNode, 'mousemove', this._handleMouseMove.bind(this, colNode));
-        // dom.on(handle, 'mousedown', this._handleMouseMove.bind(this, handle));
+    _handleFocusSelectField(event) {
+        this._emitFieldClicked(event.delegateTarget.parentElement.parentElement);
     }
+
+    /**
+     * @param {!Event} event
+     * @private
+     * @todo Logic to resize field.
+     */
+    _handleOnClickResize(event) {}
 
     /**
      * @param {!Event} event
@@ -188,15 +181,13 @@ class LayoutRenderer extends Component {
 
     /**
      * @param {!Event} event
-     * @param {!String} mode
      * @private
      */
-    _emitFieldClicked(event, mode) {
+    _emitFieldClicked(event) {
         const index = LayoutSupport.getIndexes(event);
 
         this.emit('fieldClicked', {
-            ...index,
-            mode,
+            ...index
         });
     }
 }
