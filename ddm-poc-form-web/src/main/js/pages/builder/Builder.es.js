@@ -1,12 +1,9 @@
 import {ClayManagementToolbar} from 'clay-management-toolbar';
 import ClayButton from 'clay-button';
 import Component from 'metal-jsx';
-import Sidebar, { SidebarProvider } from '../../components/Sidebar/index.js';
-import withSidebarComposer from '../../hocs/withSidebarComposer/index.js';
+import Sidebar from '../../components/Sidebar/index.js';
 
 import LayoutRenderer from 'ddm-poc-form-js-components/Layout/index.js';
-
-const SidebarProviderWithSidebarComposer = withSidebarComposer(SidebarProvider);
 
 /**
  * Builder.
@@ -120,16 +117,15 @@ class Builder extends Component {
                         />
                     </div>
                 </div>
-                <SidebarProviderWithSidebarComposer {...this.props}>
-                    <Sidebar
-                        events={sidebarEvents}
-                        fieldFocus={fieldFocus}
-                        fieldLists={listFields}
-                        mode={mode}
-                        ref="sidebar"
-                        spritemap={spritemap}
-                    />
-                </SidebarProviderWithSidebarComposer>
+                <Sidebar
+                    context={context}
+                    events={sidebarEvents}
+                    fieldFocus={fieldFocus}
+                    fieldLists={listFields}
+                    mode={mode}
+                    ref="sidebar"
+                    spritemap={spritemap}
+                />
             </div>
         );
     }
